@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך אסטרטגי: גשרי זהב לבניית יבשת STEM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A90E2; 
+            --secondary-color: #00A99D; 
+            --accent-color: #F5A623; 
+            --text-color: #333333;
+            --bg-color: #F4F7F9;
+            --key-practice-color: #FFD700; /* Gold */
+            --support-practice-color: #EAF3FE; /* Light Blue */
+            --success-color: #27AE60;
+            --border-color: #EAECEF;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        /* Branding */
+        .branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+        .branding .logo { height: 42px; width: auto; object-fit: contain; }
+        .branding .logo-large { height: 72px; width: auto; object-fit: contain; }
+        .branding .brand-title { margin: 0; color: var(--primary-color); font-size: 1.2em; font-weight: 800; }
+        h1 {
+            text-align: center;
+            font-size: 2.8em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+        .intro-text {
+            text-align: center;
+            font-size: 1.2em;
+            color: #777;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h2 {
+            font-size: 2em;
+            color: var(--secondary-color);
+            border-right: 4px solid var(--secondary-color);
+            padding-right: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        /* --- General Table Styles --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+        thead th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:hover {
+            background-color: #f1f8ff;
+        }
+        /* --- Specific Table Styling for Strategy --- */
+        .scoring-table th, .scoring-table td {
+            text-align: center;
+        }
+        .scoring-table thead th {
+            background-color: #334455;
+        }
+        .key-practice {
+            background-color: var(--key-practice-color);
+            font-weight: 700;
+        }
+        .optimized-support {
+            background-color: var(--support-practice-color);
+        }
+        .synergy-table td:nth-child(4) { /* Rationale column */
+            background-color: #e8f5e9;
+            border-right: 4px solid var(--success-color);
+            font-size: 0.95em;
+        }
+        /* --- Bibliography Styling --- */
+        .bibliography-list {
+            list-style-type: none;
+            padding-right: 0;
+        }
+        .bibliography-list li {
+            margin-bottom: 15px;
+            padding-right: 15px;
+            position: relative;
+        }
+        .bibliography-list li::before {
+            content: '📖';
+            position: absolute;
+            right: 0;
+            color: var(--primary-color);
+        }
+        .super-strategy {
+            background-color: #fff9e6;
+            border-right: 5px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        .super-strategy strong {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="branding">
+            <img src="logo1.png" alt="לוגו" class="logo">
+            <h2 class="brand-title">מדריך אסטרטגי - מאיים ליבשת STEM</h2>
+            <img src="logo2.png" alt="יסודי עכשווי" class="logo-large">
+        </div>
+        <h1>🎯 מדריך אסטרטגי: גשרי זהב לבניית יבשת STEM</h1>
+        <p class="intro-text">
+            מדריך זה מסכם את האסטרטגיות המוכחות ביותר ("גשרי הזהב") להתמודדות עם האתגרים הנפוצים בבתי הספר היסודיים, בהתבסס על רציונל סינרגטי ומחקרים תומכים.
+        </p>
+
+        <!-- ============================================== -->
+        <!-- שיטת הניקוד -->
+        <!-- ============================================== -->
+        <h2>🔑 שיטת הניקוד המלאה (היחס בין הגשרים)</h2>
+        <table class="scoring-table">
+            <thead>
+                <tr>
+                    <th>סוג הגשר</th>
+                    <th>ניקוד לאי בודד</th>
+                    <th>תפקיד אסטרטגי</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="key-practice">גשר זהב (Key Practice)</td>
+                    <td class="key-practice">50 נקודות</td>
+                    <td>**הפתרון הקריטי:** מטפל בשורש הבעיה. חובה לבחירה להצלחה מירבית.</td>
+                </tr>
+                <tr>
+                    <td class="optimized-support">גשר תומך מיטבי (Optimized Support)</td>
+                    <td class="optimized-support">10 נקודות</td>
+                    <td>**חיזוק קיימות:** משפר את הסינרגיה ומבטיח שהפתרון יעבוד לטווח ארוך.</td>
+                </tr>
+                <tr>
+                    <td>גשר רגיל (General Support)</td>
+                    <td>3-5 נקודות</td>
+                    <td>**תמיכה כללית:** כל גשר נותן תמיד ניקוד בסיסי, אך אינו יעיל כמו גשר תומך מיטבי.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ============================================== -->
+        <!-- איי פער ואי-שוויון -->
+        <!-- ============================================== -->
+        <h2>1. 🏝️ איי פער ואי-שוויון (נגישות)</h2>
+        <p>אתגרים אלו קשורים לכך שיוזמות STEM אינן מגיעות לכלל התלמידים והמורים, או אינן נתפסות כרלוונטיות.</p>
+        <table class="synergy-table">
+            <thead>
+                <tr>
+                    <th>האי (האתגר)</th>
+                    <th>גשר הזהב המומלץ (50 נק')</th>
+                    <th>גשר תומך מיטבי (10 נק')</th>
+                    <th>רציונל הסינרגיה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>מועדוני העשרה וימי שיא</td>
+                    <td class="key-practice">🤝 שותפויות קהילה ולקוחות (עלות: 2)</td>
+                    <td class="optimized-support">🧩 פדגוגיה של PBL רבעוני (עלות: 3)</td>
+                    <td>שותפויות מבטיחות רלוונטיות, ו-PBL רבעוני מבטיח שהפרויקט יעמיק ויימשך מעבר ליום שיא בודד.</td>
+                </tr>
+                <tr>
+                    <td>STEM רק במעבדת המדעים</td>
+                    <td class="key-practice">🌲 שימוש במרחב החיצוני (עלות: 1)</td>
+                    <td class="optimized-support">🧱 מרחבי יצירה גמישים (עלות: 2)</td>
+                    <td>שבירת חומות המעבדה מתחילה בחוץ (המרחב החיצוני) וממשיכה פנימה (מרחבי יצירה נגישים בתוך בית הספר).</td>
+                </tr>
+                <tr>
+                    <td>STEM רק בשיעורי מדע/מתמטיקה</td>
+                    <td class="key-practice">📝 תהליך התכנון ההנדסי (עלות: 2)</td>
+                    <td class="optimized-support">📊 ניתוח נתונים מתמטי (עלות: 2)</td>
+                    <td>ה-EDP הוא המתודה המארגנת, וניתוח נתונים הוא הכלי ש**מחבר ישירות את המתמטיקה** ליישום ההנדסי.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ============================================== -->
+        <!-- איי מנהיגות וקיימות -->
+        <!-- ============================================== -->
+        <h2>2. 👥 איי מנהיגות וקיימות (חוסן אנושי)</h2>
+        <p>אתגרים אלו נוגעים לחוסר גיבוי ניהולי או לתלות של התוכנית באנשים בודדים.</p>
+        <table class="synergy-table">
+            <thead>
+                <tr>
+                    <th>האי (האתגר)</th>
+                    <th>גשר הזהב המומלץ (50 נק')</th>
+                    <th>גשר תומך מיטבי (10 נק')</th>
+                    <th>רציונל הסינרגיה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>מורה חלוץ יחיד</td>
+                    <td class="key-practice">🧑‍💻 רכז/מוביל STEM + 👑 מנהיגות חזונית (עלות: 6)</td>
+                    <td class="optimized-support">🗣️ תיעוד ציבורי של תהליכים (עלות: 1)</td>
+                    <td>הרכז הופך את הידע האישי למוסדי, והתיעוד מבטיח שכל הצוות ייחשף (וישתמש) בפרקטיקות של החלוץ.</td>
+                </tr>
+                <tr>
+                    <td>ציוד יקר שאינו מנוצל</td>
+                    <td class="key-practice">🧱 מרחבי יצירה גמישים (עלות: 2)</td>
+                    <td class="optimized-support">🌳 פיתוח מקצועי ממוקד (עלות: 3)</td>
+                    <td>מרחבי יצירה מבטיחים נגישות לציוד פשוט, ופיתוח מקצועי מבטיח שהמורים ירגישו ביטחון להשתמש בכלים אלה בפדגוגיה.</td>
+                </tr>
+                <tr>
+                    <td>הוראה דיסציפלינרית נפרדת</td>
+                    <td class="key-practice">🔄 ישיבות תכנון משותפות + 👑 מנהיגות חזונית (עלות: 5)</td>
+                    <td class="optimized-support">📝 תהליך התכנון ההנדסי (עלות: 2)</td>
+                    <td>המנהיגות והישיבות יוצרות את הזמן והמסגרת; ה-EDP הוא ה**תוכן המשותף** המכריח את המורים לתכנן יחידה אינטגרטיבית.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ============================================== -->
+        <!-- איי פדגוגיה ותרבות -->
+        <!-- ============================================== -->
+        <h2>3. 🧠 איי פדגוגיה ותרבות (למידה וכישלון)</h2>
+        <p>אתגרים אלו קשורים לאופן שבו מורים תופסים למידה, או לאופן שבו המערכת מעריכה אותה.</p>
+        <table class="synergy-table">
+            <thead>
+                <tr>
+                    <th>האי (האתגר)</th>
+                    <th>גשר הזהב המומלץ (50 נק')</th>
+                    <th>גשר תומך מיטבי (10 נק')</th>
+                    <th>רציונל הסינרגיה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>הכשרות קצרות ותיאורטיות</td>
+                    <td class="key-practice">🌳 פיתוח מקצועי ממוקד (עלות: 3)</td>
+                    <td class="optimized-support">📊 ניתוח נתונים מתמטי (עלות: 2)</td>
+                    <td>פיתוח מקצועי ממוקד דורש תוצר מוחשי; מתן כלי ניתוח נתונים מיידיים מהווה **"מוצר מוגמר"** שקל ליישם ולחבר.</td>
+                </tr>
+                <tr>
+                    <td>הערכה מסכמת בלבד</td>
+                    <td class="key-practice">📝 תהליך התכנון ההנדסי + 🗣️ תיעוד ציבורי של תהליכים (עלות: 3)</td>
+                    <td class="optimized-support">🧩 פדגוגיה של PBL רבעוני (עלות: 3)</td>
+                    <td>ה-EDP והתיעוד משנים את תרבות ההערכה, וה-PBL רבעוני מבטיח שהשינוי הזה יישמר ויתקיים באופן קבוע.</td>
+                </tr>
+                <tr>
+                    <td>הוראה דיסציפלינרית נפרדת</td>
+                    <td class="key-practice">📝 תהליך התכנון ההנדסי (עלות: 2)</td>
+                    <td class="optimized-support">🔄 ישיבות תכנון משותפות (עלות: 2)</td>
+                    <td>ה-EDP נותן את ה"מה" (את המתודה), וישיבות התכנון המשותפות נותנות את ה\*\*"איך"\*\* (את הזמן והמרחב למורים ליישם יחד את המתודה).</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- ============================================== -->
+        <!-- אסטרטגיית העל -->
+        <!-- ============================================== -->
+        <h3>👑 אסטרטגיית העל (גשר קריטי לכל מצב)</h3>
+        <div class="super-strategy">
+            <p>שימו לב: גשר **"👑 מנהיגות בית ספרית חזונית"** הוא הגשר בעל ההשפעה הניהולית הרחבה ביותר, והוא נדרש לטיפול בכל בעיה של **קיימות, אחידות או חוסר תמיכה**. בלעדיו, כל הגשרים האחרים עלולים לקרוס.</p>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- מקורות ביבליוגרפיים -->
+        <!-- ============================================== -->
+        <h2>📚 מקורות ביבליוגרפיים ורציונל מחקרי (לתמיכה בגשרים)</h2>
+        <p>הפרקטיקות המוצגות במשחק מבוססות על ממצאי מחקרים מובילים בתחום החינוך ל-STEM ופיתוח מקצועי במערכות חינוך מתקדמות.</p>
+
+        <h3>1. גשרים פדגוגיים (PBL & EDP)</h3>
+        <ul class="bibliography-list">
+            <li>**📝 תהליך התכנון ההנדסי (EDP):**
+                <ul>
+                    <li>**Bybee, R. W. (2010).** *Advancing STEM education: A 2020 vision*. מכיר בהנדסה כעמוד תווך קריטי המחבר בין מדע ומתמטיקה בהקשר של פתרון בעיות, במיוחד בחינוך היסודי.</li>
+                    <li>**Honey, M., Pearson, G., & Schweingruber, H. (Eds.). (2014).** *STEM integration in K-12 education: Status, prospects, and an agenda for research*. דו"ח שמדגיש כי הנדסה היא המניע העיקרי לאינטגרציה אפקטיבית.</li>
+                </ul>
+            </li>
+            <li>**🧩 פדגוגיה של PBL רבעוני:**
+                <ul>
+                    <li>**Wurdinger, S. D., & Carlson, L. (2010).** *Teaching for learning: 101 innovative and integrated strategies for deeper learning*. ממליץ על למידה מבוססת פרויקטים (PBL) כגישה האידיאלית להעמקת ההבנה והמוטיבציה, תוך שימוש בידע רב-תחומי.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>2. גשרים לשינוי תרבותי והערכה</h3>
+        <ul class="bibliography-list">
+            <li>**🗣️ תיעוד ציבורי של תהליכים (תרבות כישלון בטוח):**
+                <ul>
+                    <li>**Dweck, C. S. (2006).** *Mindset: The new psychology of success*. מחקר על חשיבות ה-Growth Mindset (חשיבה מתפתחת), המעודד למידה מכישלון והתמקדות במאמץ ובתהליך (איטרציה), במקום בתוצאה הסופית.</li>
+                    <li>**Kelley, T., & Kelley, D. (2013).** *Creative confidence: Unleashing the creative potential within us all*. מדגיש את החשיבות של יצירת מרחב שבו מותר לטעות, המאפיין תרבויות חדשנות (כמו עיצוב והנדסה).</li>
+                </ul>
+            </li>
+            <li>**🤝 שותפויות קהילה ולקוחות:**
+                <ul>
+                    <li>**National Research Council. (2015).** *Science, technology, engineering, and mathematics (STEM) education in the secondary grades: Pathways to success*. מדגיש את הרלוונטיות של חיבור הלמידה לארגונים חיצוניים ולקהילה ליצירת מעורבות ואחריות אזרחית.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>3. גשרי מנהיגות וקיימות</h3>
+        <ul class="bibliography-list">
+            <li>**👑 מנהיגות בית ספרית חזונית ו-🧑‍💻 רכז/מוביל STEM:**
+                <ul>
+                    <li>**Fullan, M. (2001).** *Leading in a culture of change*. מחקרים על שינוי מערכתי מצביעים על כך ששינוי מוצלח תלוי במידה רבה ב**מנהיגות נחושה** המקדמת חזון, וכן בהקצאת **מובילי שינוי פנימיים** (רכזים/מובילים) שיוצרים קישוריות בין הצוותים השונים.</li>
+                    <li>**Guskey, T. R. (2002).** *Professional development and student learning: The link remains elusive*. מחקרים על פיתוח מקצועי מראים כי שינוי פרקטיקות מחייב ליווי ארוך טווח וממוקד יישום, שמנוהל באופן מיטבי על ידי **מוביל פנימי** בבית הספר.</li>
+                </ul>
+            </li>
+            <li>**🌳 פיתוח מקצועי ממוקד:**
+                <ul>
+                    <li>**Darling-Hammond, L., Hyler, M. E., & Gardner, M. (2017).** *Effective Teacher Professional Development*. מדגיש כי הפיתוח המקצועי האפקטיבי ביותר הוא זה שממוקד בתוכן, כולל **למידה אקטיבית** (תרגול מעשי, בניית יחידה), ומספק **משוב ורפלקציה**.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
