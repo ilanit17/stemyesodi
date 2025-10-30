@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק אסטרטגיה: מאיים ליבשת</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A90E2; 
+            --secondary-color: #00A99D; 
+            --accent-color: #F5A623; 
+            --error-color: #C0392B;
+            --success-color: #27AE60;
+            --text-color: #4A4A4A;
+            --bg-color: #F4F7F9;
+            --light-bg-color: #FFFFFF;
+            --border-color: #EAECEF;
+            --key-practice-color: #FFD700;
+            --supporting-practice-color: #4A90E2;
+        }
+
+        /* Branding (logos) */
+        .branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 6px 8px 12px 8px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+        .branding .logo {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+        }
+        .branding .brand-title {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-color);
+            padding: 10px;
+            margin: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1800px; margin: 0 auto; background: var(--light-bg-color);
+            border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            min-height: 85vh;
+        }
+        
+        #screen4-results {
+            padding: 0;
+        }
+        
+        h1, h2, h3, h4, button { font-family: 'Assistant', sans-serif; font-weight: 700; }
+
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .screen-header { text-align: center; margin-bottom: 30px; }
+        .screen-header h1 { font-size: 2.8em; color: var(--primary-color); }
+        .screen-header p { font-size: 1.3em; color: #777; max-width: 800px; margin: 10px auto 0; }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #357ABD 100%);
+            color: white; border: none; padding: 15px 35px; border-radius: 30px;
+            font-size: 1.3em; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        .btn:hover:not(:disabled) { 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+        .btn:disabled { background: #bdc3c7; cursor: not-allowed; box-shadow: none; }
+        
+        .selection-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .card {
+            background-color: #fff; border: 3px solid var(--border-color);
+            border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .card:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+            border-color: var(--primary-color);
+        }
+        .card.selected { 
+            border-color: var(--primary-color); 
+            background: linear-gradient(135deg, #EAF3FE 0%, #D6E9FF 100%);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 100;
+            display: none; align-items: center; justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+        .modal-content { 
+            background: white; border-radius: 20px; padding: 35px; 
+            width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content .card {
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-content .card:hover {
+            transform: translateX(-5px);
+        }
+
+        /* Strategy Screen */
+        .strategy-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
+        .strategy-column { display: flex; flex-direction: column; min-width: 320px; max-width: 320px; }
+
+        .visualization-map {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 15px; 
+            min-height: 750px; 
+            height: 80vh;
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+        .island-wrapper { 
+            position: absolute;
+            z-index: 5;
+        }
+        
+        .map-island {
+            width: 180px; height: 180px;
+            background: var(--error-color); color: white;
+            border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; font-weight: 600; padding: 22px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease; cursor: pointer;
+            animation: islandAppear 0.6s ease-out;
+            position: relative;
+            z-index: 6;
+        }
+        .map-island h4 { 
+            font-size: 0.82em; 
+            line-height: 1.25; 
+            margin: 0; 
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        .map-island p { 
+            font-size: 0.68em; 
+            opacity: 0.92; 
+            margin-top: 5px;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        @keyframes islandAppear {
+            from { 
+                transform: scale(0.3); 
+                opacity: 0; 
+            }
+            to { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .map-island.drag-over {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px var(--accent-color);
+        }
+
+        .dropped-practices-container {
+            position: absolute;
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        #continent-anchor { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #27AE60 0%, #229954 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.3em;
+            box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4);
+            z-index: 5;
+            border: 4px solid white;
+        }
+
+        .bridge {
+            position: absolute;
+            background: linear-gradient(90deg, var(--accent-color), var(--success-color));
+            transform-origin: left center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+            pointer-events: none;
+            z-index: 9999;
+            border: 2px solid rgba(255,255,255,0.6);
+        }
+        
+        .bridge-to-continent {
+            background: linear-gradient(90deg, #F5A623, #27AE60) !important;
+            height: 18px !important;
+            box-shadow: 0 6px 24px rgba(39, 174, 96, 0.7) !important;
+            animation: bridgePulse 2s ease-in-out infinite;
+            z-index: 9999 !important;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .bridge-between-islands {
+            background: linear-gradient(90deg, #667eea, #764ba2) !important;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.6) !important;
+            animation: bridgeFlow 3s ease-in-out infinite;
+            z-index: 3 !important;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            height: 10px !important;
+        }
+        
+        @keyframes bridgePulse {
+            0%, 100% { 
+                box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+            }
+            50% { 
+                box-shadow: 0 6px 25px rgba(39, 174, 96, 0.7);
+            }
+        }
+        
+        @keyframes bridgeFlow {
+            0%, 100% { 
+                opacity: 0.6;
+            }
+            50% { 
+                opacity: 0.85;
+            }
+        }
+        
+        .practices-toolbox h3 { color: var(--secondary-color); margin-bottom: 15px; }
+        .practices-list { max-height: 480px; overflow-y: auto; padding: 5px; }
+        .practice-card {
+            border-left: 5px solid var(--secondary-color); cursor: grab; margin-bottom: 12px;
+            padding: 12px 15px;
+        }
+        .practice-card h4 { font-size: 0.95em; margin: 5px 0; }
+        .practice-card p { font-size: 0.85em; margin: 5px 0 0 0; }
+        .practice-card.disabled-budget { opacity: 0.5; cursor: not-allowed; }
+        .practice-cost { 
+            font-weight: 700; background: var(--secondary-color); color: white; 
+            padding: 3px 8px; border-radius: 12px; float: left; font-size: 0.85em;
+        }
+        
+        .dropped-practice-tag {
+            background: white; color: var(--secondary-color); border: 1px solid var(--secondary-color);
+            padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: 600;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); animation: popIn 0.3s;
+            white-space: nowrap;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .remove-practice-btn {
+            cursor: pointer; background: var(--secondary-color); color: white;
+            border-radius: 50%; width: 18px; height: 18px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+
+        .budget-display { text-align: center; margin-top: auto; padding-top: 20px; font-size: 1.4em; font-weight: 600; }
+        #budgetLeft { color: var(--secondary-color); }
+
+        .results-layout { text-align: center; }
+        .result-card { border-right: 5px solid; text-align: right; }
+        
+        /* Full Screen Map */
+        .full-map-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 20px;
+        }
+        
+        .results-header {
+            text-align: center;
+            padding: 15px 0 20px 0;
+            position: relative;
+            z-index: 50;
+            background: var(--light-bg-color);
+        }
+        
+        .results-header h1 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+        
+        .results-header p {
+            font-size: 1.1em;
+            color: #666;
+            margin: 0;
+        }
+        
+        .visualization-map-full {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 20px;
+            height: 72vh;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            margin: 20px auto 0 auto;
+            width: 100%;
+            max-width: 1800px;
+            overflow: visible;
+        }
+        
+        #continent-anchor-full {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #27AE60 0%, #229954 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5em;
+            box-shadow: 0 10px 40px rgba(39, 174, 96, 0.5);
+            z-index: 5;
+            border: 5px solid white;
+        }
+        
+        .results-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .stats-summary {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8f4f8 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item h4 {
+            margin: 0 0 10px 0;
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .stat-item p {
+            font-size: 3em;
+            margin: 0;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .legend-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            gap: 12px;
+        }
+        
+        .legend-color-box {
+            width: 50px;
+            height: 30px;
+            border-radius: 6px;
+            border: 3px solid;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 1200px) {
+            .strategy-layout { grid-template-columns: 1fr; }
+            .strategy-column { min-width: 100%; max-width: 100%; margin-bottom: 20px; }
+            .visualization-map { min-height: 600px; height: 70vh; }
+            .visualization-map-full { height: 60vh; }
+            .results-panel { grid-template-columns: 1fr; }
+        }
+        
+        @media (min-width: 1400px) {
+            .visualization-map { height: 85vh; }
+            .visualization-map-full { height: 75vh; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="branding">
+            <img src="logo1.png" alt="Logo 1" class="logo">
+            <h2 class="brand-title">מאיים ליבשת STEM</h2>
+            <img src="logo2.png" alt="Logo 2" class="logo">
+        </div>
+        <!-- Screen 0: Island Count Selection -->
+        <div class="screen" id="screen0-island-count">
+            <div class="screen-header">
+                <h1>🏝️ כמה איים תרצו לאבחן?</h1>
+                <p>בחרו את רמת המורכבות המתאימה לסדנה</p>
+            </div>
+            
+            <div style="max-width: 1000px; margin: 40px auto;">
+                <div class="island-count-options" style="display: flex; gap: 25px; justify-content: center; flex-wrap: wrap;">
+                    <div class="island-count-card" onclick="selectIslandCount(1)" style="width: 180px; padding: 20px; text-align: center; cursor: pointer; border: 3px solid var(--border-color); border-radius: 15px; transition: all 0.3s; background: white;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">🏝️</div>
+                        <h3 style="color: var(--primary-color); margin: 10px 0;">אי אחד</h3>
+                        <p style="color: #666; font-size: 0.95em; margin: 10px 0;">מושלם להדגמה</p>
+                        <div style="background: #e8f4fd; padding: 8px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: var(--primary-color);">8 נקודות</strong>
+                            <div style="font-size: 0.85em; color: #666; margin-top: 5px;">תקציב גשרים</div>
+                        </div>
+                    </div>
+                    
+                    <div class="island-count-card" onclick="selectIslandCount(2)" style="width: 180px; padding: 20px; text-align: center; cursor: pointer; border: 3px solid var(--border-color); border-radius: 15px; transition: all 0.3s; background: white;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">🏝️🏝️</div>
+                        <h3 style="color: var(--primary-color); margin: 10px 0;">שני איים</h3>
+                        <p style="color: #666; font-size: 0.95em; margin: 10px 0;">למתחילים</p>
+                        <div style="background: #e8f4fd; padding: 8px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: var(--primary-color);">12 נקודות</strong>
+                            <div style="font-size: 0.85em; color: #666; margin-top: 5px;">תקציב גשרים</div>
+                        </div>
+                    </div>
+                    
+                    <div class="island-count-card" onclick="selectIslandCount(3)" style="width: 180px; padding: 20px; text-align: center; cursor: pointer; border: 3px solid var(--border-color); border-radius: 15px; transition: all 0.3s; background: white;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">🏝️🏝️🏝️</div>
+                        <h3 style="color: var(--primary-color); margin: 10px 0;">שלושה איים</h3>
+                        <p style="color: #666; font-size: 0.95em; margin: 10px 0;">אתגר בינוני</p>
+                        <div style="background: #e8f4fd; padding: 8px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: var(--primary-color);">15 נקודות</strong>
+                            <div style="font-size: 0.85em; color: #666; margin-top: 5px;">תקציב גשרים</div>
+                        </div>
+                        <div style="margin-top: 10px; color: var(--accent-color); font-size: 0.85em; font-weight: 600;">⭐ מומלץ</div>
+                    </div>
+                    
+                    <div class="island-count-card" onclick="selectIslandCount(4)" style="width: 180px; padding: 20px; text-align: center; cursor: pointer; border: 3px solid var(--border-color); border-radius: 15px; transition: all 0.3s; background: white;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">🏝️🏝️🏝️🏝️</div>
+                        <h3 style="color: var(--primary-color); margin: 10px 0;">ארבעה איים</h3>
+                        <p style="color: #666; font-size: 0.95em; margin: 10px 0;">אתגר מלא</p>
+                        <div style="background: #e8f4fd; padding: 8px; border-radius: 8px; margin-top: 15px;">
+                            <strong style="color: var(--primary-color);">18 נקודות</strong>
+                            <div style="font-size: 0.85em; color: #666; margin-top: 5px;">תקציב גשרים</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <p style="color: #666; font-size: 1.1em; max-width: 700px; margin: 0 auto 20px;">
+                        💡 <strong>טיפ:</strong> למשתתפים חדשים מומלץ להתחיל עם אי אחד או שניים. 
+                        ניתן לשחק שוב עם יותר איים!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Screen 1: Welcome -->
+        <div id="screen1-welcome" class="screen active">
+            <div class="screen-header">
+                <h1>🎮 הצגת המשחק: מאיים ליבשת STEM</h1>
+                <p>אבחנו אתגרים בשטח, בחרו גשרי חיבור (פרקטיקות) מתאימים, ובנו יבשת STEM יציבה ומחוברת.</p>
+                <p style="font-size: 1.1em; margin-top: 15px; color: var(--secondary-color);">
+                    המשחק מדמה את האתגר של יצירת חינוך STEM משמעותי - מעבר מיוזמות נקודתיות ל<strong>גישה מערכתית</strong>.
+                </p>
+            </div>
+            <div style="background:#ffffff; border:2px solid var(--border-color); border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,0.06); padding:8px; margin: 10px auto 20px auto; max-width: 1200px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 10px;">
+                    <h3 style="margin:0; color:var(--primary-color); font-size:1.2em;">📘 מדריך למשתמש</h3>
+                    <a href="madrichstem.html" target="_blank" class="btn" style="padding:6px 10px; font-size:0.95em; border-radius:10px;">פתח בחלון חדש</a>
+                </div>
+                <div style="height: 70vh; border:1px solid var(--border-color); border-radius:10px; overflow:hidden;">
+                    <iframe src="madrichstem.html" title="מדריך למשתמש" style="width:100%; height:100%; border:0; background:#fff;"></iframe>
+                </div>
+            </div>
+            <div class="screen-footer"><button class="btn" onclick="switchScreen('screen0-island-count')">🚀 בחר מספר איים</button></div>
+        </div>
+
+        <!-- Screen 2: Island Selection -->
+        <div id="screen2-selection" class="screen">
+            <div class="screen-header">
+                <h1>🏝️ שלב 1: זיהוי איי STEM והבנת האתגר</h1>
+                <p>בחרו אתגרים המאפיינים את אזור הפיקוח שלכם.</p>
+                <p style="font-size: 1em; margin-top: 10px; color: var(--secondary-color);">
+                    💡 <strong>לחצו על כל אי כדי לבחור את ההשלכה המשמעותית ביותר שאתם מזהים בשטח.</strong>
+                </p>
+            </div>
+            <div id="islandSelectionGrid" class="selection-grid"></div>
+            <div class="screen-footer"><button id="toStrategyBtn" class="btn" disabled>➡️ המשך לתכנון (נבחרו 0 איים)</button></div>
+        </div>
+
+        <!-- Screen 3: Strategy Planning -->
+        <div id="screen3-strategy" class="screen">
+            <div class="screen-header" id="strategyHeader">
+                <h1>🌉 שלב 2: תכנון ההתערבות - בניית גשרים</h1>
+                <p>גררו גשרי חיבור (פרקטיקות) מארגז הכלים לכל אי כדי לטפל באתגרים שאובחנו, במסגרת התקציב.</p>
+                <p style="font-size: 0.95em; color: #666; margin-top: 10px;">💡 <strong>טיפ:</strong> כל אי דורש גשרים ספציפיים ליצירת חיבור מוצלח ליבשת המרכזית.</p>
+            </div>
+            <div class="strategy-layout">
+                <div class="strategy-column" id="strategyColumn">
+                    <div class="practices-toolbox">
+                        <h3>🧰 ארגז כלים (גשרי חיבור)</h3>
+                        <div id="practicesList" class="practices-list"></div>
+                    </div>
+                    <div class="budget-display">תקציב שנותר: <span id="budgetLeft">15</span> נקודות</div>
+                </div>
+                <div class="visualization-map" id="visualizationMap">
+                    <div id="continent-anchor">יבשת<br>STEM</div>
+                </div>
+            </div>
+            <div class="screen-footer" id="strategyFooter"><button id="implementBtn" class="btn">🚀 הפעל ובנה את היבשת!</button></div>
+        </div>
+
+        <!-- Screen 4: Full Map & Results -->
+        <div id="screen4-results" class="screen">
+            <div class="full-map-container">
+                <div class="results-header">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1800px; margin:0 auto; padding:0 8px;">
+                        <h1 style="margin:0;">🎯 תוצאות בניית היבשת</h1>
+                        <button class="btn" onclick="restartGame()" style="padding:10px 16px; font-size:1em; border-radius:12px; background:#6c757d;">🔄 התחל אבחון חדש</button>
+                    </div>
+                    <p style="font-size: 1.1em; color: #666; margin-top: 15px;">צבעי האיים במפה מייצגים את אחוז ההצלחה בחיבורם ליבשת, בהתאם למקרא הבא:</p>
+                    <div style="background: linear-gradient(135deg,#f8fbff,#f1f8ff); border: 2px solid #e3f0ff; box-shadow: 0 6px 18px rgba(74,144,226,0.18); border-radius: 16px; padding: 14px 16px; margin: 15px auto 0 auto; max-width: 1100px;">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <div style="display:flex; align-items:center; gap:8px; background:#eaf7ef; border:2px solid #27AE60; color:#1e7a45; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#27AE60; border:2px solid #27AE60;"></span>
+                                80%+
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px; background:#edf8f1; border:2px solid #52B788; color:#2c805f; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#52B788; border:2px solid #52B788;"></span>
+                                60–79%
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px; background:#fff5e6; border:2px solid #F5A623; color:#a86310; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#F5A623; border:2px solid #F5A623;"></span>
+                                40–59%
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px; background:#fff0e6; border:2px solid #E67E22; color:#a45111; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#E67E22; border:2px solid #E67E22;"></span>
+                                20–39%
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px; background:#fdeceb; border:2px solid #C0392B; color:#7a221a; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#C0392B; border:2px solid #C0392B;"></span>
+                                < 20%
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px;">
+                            <div style="display:flex; align-items:center; gap:8px; background:#fff9e6; border:2px solid #FFD700; color:#8a6d00; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#FFF9E6; border:2px solid #FFD700;"></span>
+                                פרקטיקה מומלצת
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px; background:#eaf3fe; border:2px solid #4A90E2; color:#235a99; padding:6px 10px; border-radius:12px; font-weight:700;">
+                                <span style="display:inline-block; width:20px; height:14px; border-radius:6px; background:#EAF3FE; border:2px solid #4A90E2;"></span>
+                                פרקטיקה תומכת
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visualization-map-full" id="visualizationMapFull">
+                    <div id="continent-anchor-full">יבשת<br>STEM</div>
+                </div>
+                <div class="results-panel" id="resultsPanel"></div>
+                <div style="margin-top: 20px; background:#ffffff; border:2px solid var(--border-color); border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,0.06); padding:10px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 10px;">
+                        <h3 style="margin:0; color:var(--primary-color); font-size:1.2em;">📝 מדריך אסטרטגי מסכם</h3>
+                        <a href="astrategy.html" target="_blank" class="btn" style="padding:6px 10px; font-size:0.95em; border-radius:10px;">פתח בחלון חדש</a>
+                    </div>
+                    <div style="height: 70vh; border:1px solid var(--border-color); border-radius:10px; overflow:hidden; background:#fff;">
+                        <iframe src="astrategy.html" title="מדריך אסטרטגי" style="width:100%; height:100%; border:0;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="consequenceModal" class="modal-overlay"><div class="modal-content" id="modalContent"></div></div>
+
+    <script>
+    const islandsData = [
+        { 
+            id: 'i1', 
+            name: 'מועדוני העשרה וימי שיא',
+            description: 'תוכניות העשרה נקודתיות כמו תחרויות רובוטיקה, ימי חשיפה, אירועי STEAM, או מועדונים לאחר שעות הלימודים המיועדים לקבוצה מצומצמת.',
+            reason: 'קל לגייס תמיכה חיצונית או תקציב נקודתי לאירועים בעלי נראות גבוהה.',
+            consequences: [
+                { id: 'c1a', text: 'פער נגישות ואי-שוויון: הפעילות מוגבלת לקבוצה קטנה ואינה יוצרת שינוי מערכתי.', keyPractices: ['p1'], result: 'יישום **פדגוגיה של PBL רבעוני** מבטיח שכל התלמידים, ולא רק קבוצה מצומצמת, ישתתפו בחוויית למידה משמעותית ומתמשכת.' },
+                { id: 'c1b', text: 'חוסר רצף: אירועים קצרים אינם מספקים את העומק הנדרש לשינוי תפיסתי מתמשך.', keyPractices: ['p2'], result: 'בניית **שותפויות קהילה ולקוחות** הופכת את האירועים הנקודתיים לחלק ממערכת יחסים מתמשכת, המייצרת ערך אמיתי לאורך זמן.' }
+            ]
+        },
+        { 
+            id: 'i2', 
+            name: 'הוראה דיסציפלינרית נפרדת',
+            description: 'הוראת מדעים, מתמטיקה וטכנולוגיה כמקצועות נפרדים ללא חיבור או אינטגרציה. כל מורה מלמד בתחומו ללא קשר לשאר התחומים.',
+            reason: 'מורים חסרים ידע בהנדסה וטכנולוגיה ומרגישים לא מוכנים ליישם גישה אינטרדיסציפלינרית.',
+            consequences: [
+                { id: 'c2a', text: 'היעדר הקשר ומוטיבציה נמוכה: התלמידים לא מזהים את הקשר בין הידע לפתרון בעיות אמיתיות.', keyPractices: ['p4'], result: 'שימוש ב**תהליך התכנון ההנדסי** כמסגרת מארגנת, מחבר באופן טבעי בין כל תחומי הדעת ומעניק לתלמידים הקשר ומוטיבציה.' },
+                { id: 'c2b', text: 'החמצת פוטנציאל אינטגרטיבי: הפרדה מלאכותית שאינה משקפת את האופי הבין-תחומי של העולם.', keyPractices: ['p3', 'p11'], result: 'באמצעות **מנהיגות חזונית** המקצה זמן ל**ישיבות תכנון משותפות**, הצוות בונה יחידות לימוד אינטגרטיביות המנצלות את הפוטנציאל הבין-תחומי.' }
+            ]
+        },
+        { 
+            id: 'i3', 
+            name: 'מורה חלוץ יחיד',
+            description: 'מורה אחד נלהב שמיישם STEM בכיתתו, אך פועל לבד ללא תמיכה של הנהלה או צוות. היוזמה תלויה באדם בודד.',
+            reason: 'חוסר תמיכה אדמיניסטרטיבית, היעדר מומחה פנימי וקושי להרחיב את המודל.',
+            consequences: [
+                { id: 'c3a', text: 'חוסר קיימות: התוכנית תלויה באדם בודד ואינה שורדת במקרה של עזיבתו.', keyPractices: ['p5', 'p11'], result: '**מנהיגות חזונית** הממנה **רכז/מוביל STEM**, מבטיחה שהיוזמה תמוסד, הידע ייאגר, והתוכנית תהפוך לנכס בית ספרי בר-קיימא.' },
+                { id: 'c3b', text: 'חוסר אחידות: המצב פוגע ביכולת לבסס חזון אחיד ושפה פדגוגית משותפת.', keyPractices: ['p6', 'p11'], result: '**מנהיגות חזונית** המעודדת **תיעוד ציבורי של תהליכים**, יוצרת שפה פדגוגית משותפת ומבטיחה שהידע של המורה החלוץ יופץ לכלל הצוות.' }
+            ]
+        },
+        { 
+            id: 'i4', 
+            name: 'הכשרות קצרות ותיאורטיות',
+            description: 'השתלמויות בנות יום אחד או סדנאות קצרות שמתמקדות בהעברת מידע תיאורטי ללא תרגול מעשי או ליווי מתמשך.',
+            reason: 'אילוצי זמן ותקציב במערכת, ודרישה לפתרונות מהירים.',
+            consequences: [
+                { id: 'c4a', text: 'ביטחון עצמי נמוך של מורים: הכשרה שאינה מעשית לא בונה את הביטחון הנדרש.', keyPractices: ['p7'], result: 'השקעה ב**פיתוח מקצועי ממוקד** הבונה ביטחון דרך התנסות מעשית, מעצימה את המורים ומעניקה להם כלים ליישום מיידי.' },
+                { id: 'c4b', text: 'קיפאון בפרקטיקה: המורים חוזרים לדפוסי הוראה ישנים כי לא קיבלו כלים מעשיים.', keyPractices: ['p8'], result: 'שילוב **ניתוח נתונים וכלים דיגיטליים** בהכשרות, מחבר בין התיאוריה לפרקטיקה ומאפשר למורים לחזור לכיתה עם כלים מעשיים ורלוונטיים.' }
+            ]
+        },
+        { 
+            id: 'i5', 
+            name: 'ציוד יקר שאינו מנוצל',
+            description: 'מדפסות תלת-ממד, מעבדות רובוטיקה, או ערכות אלקטרוניקה יקרות שנרכשו אך עומדות ללא שימוש רוב הזמן או משמשות רק מורה אחד.',
+            reason: 'חוסר ידע לגבי רכש טכנולוגי מתאים, מה שמוביל להשקעה נקודתית.',
+            consequences: [
+                { id: 'c5a', text: 'בזבוז משאבים: הטכנולוגיה לא מוטמעת בפדגוגיה היומיומית.', keyPractices: ['p9'], result: 'הקמת **מרחבי יצירה גמישים** ונגישים עם חומרים פשוטים, מבטיחה שהטכנולוגיה תהיה בשימוש יומיומי ומוטמעת בפדגוגיה, במקום לצבור אבק.' },
+                { id: 'c5b', text: 'תלות במומחה: רק מורה אחד יודע להפעיל את הציוד, מה שיוצר צוואר בקבוק.', keyPractices: ['p5', 'p11'], result: 'באמצעות **מנהיגות חזונית** ומינוי **רכז/מוביל STEM**, הידע על הפעלת הציוד מופץ לכלל המורים, מה שמונע היווצרות "צוואר בקבוק".' }
+            ]
+        },
+        { 
+            id: 'i6', 
+            name: 'הערכה מסכמת בלבד',
+            description: 'בדיקות ומבחנים שמתמקדים רק בתוצר הסופי ובציון, ללא הערכה של תהליך החשיבה, הכישלונות, או השיפורים לאורך הדרך.',
+            reason: 'מערכת החינוך ממוקדת בהערכות סופיות ובציונים במקום בתהליך.',
+            consequences: [
+                { id: 'c6a', text: 'פחד מכישלון: תלמידים נמנעים מלקיחת סיכונים ומחקר אמיתי.', keyPractices: ['p4'], result: 'אימוץ **תהליך התכנון ההנדסי** כמתודה מרכזית, יוצר תרבות של למידה מכישלונות ומעודד תלמידים לקחת סיכונים מחושבים.' },
+                { id: 'c6b', text: 'אובדן הזדמנויות למידה: ההתמקדות בציון הסופי מחמיצה את תהליך החשיבה.', keyPractices: ['p6'], result: 'שימוש ב**תיעוד ציבורי של תהליכים** חושף את החשיבה, ההתלבטויות והצמיחה, ומלמד שהערך האמיתי נמצא בדרך, ולא רק בציון הסופי.' }
+            ]
+        },
+        { 
+            id: 'i7', 
+            name: 'STEM רק במעבדת המדעים',
+            description: 'פעילויות STEM מתרחשות אך ורק במעבדה המצוידת, בשעות מוגדרות, עם קבוצות מצומצמות. שאר הכיתות והמרחבים אינם משמשים ללמידת STEM.',
+            reason: 'תפיסה שלמידת STEM דורשת ציוד מיוחד וסביבה מיוחדת.',
+            consequences: [
+                { id: 'c7a', text: 'הגבלת גישה: רק תלמידים מסוימים נחשפים ל-STEM בזמנים מוגבלים.', keyPractices: ['p10'], result: '**שימוש במרחב החיצוני** כלמידה שובר את התפיסה ש-STEM דורש ציוד מיוחד ומנגיש את הלמידה לכל התלמידים, בכל זמן.' },
+                { id: 'c7b', text: 'ניתוק מהחיים: המעבדה נתפסת כסביבה מלאכותית ולא כחלק מהמציאות.', keyPractices: ['p10'], result: 'הפיכת החצר והסביבה הקרובה למעבדה חיה באמצעות **שימוש במרחב החיצוני**, מחברת את הלמידה לחיים האמיתיים ושוברת את הניתוק מהמציאות.' }
+            ]
+        },
+        { 
+            id: 'i8', 
+            name: 'STEM רק בשיעורי מדע ומתמטיקה',
+            description: 'STEM נלמד רק במסגרת שיעורי המדעים והמתמטיקה. מקצועות כמו שפה, חברה, או אמנות אינם משולבים בחוויית ה-STEM.',
+            reason: 'הנדסה וטכנולוגיה נתפסות כחלק בלתי נפרד מהמדעים בלבד.',
+            consequences: [
+                { id: 'c8a', text: 'תלמידים "לא מדעיים" מרגישים מנותקים: תלמידים עם כישורים אחרים לא מזהים את הרלוונטיות.', keyPractices: ['p4'], result: 'יישום **תהליך התכנון ההנדסי** מדגיש שלבים כמו תקשורת, הצגת רעיונות ואמפתיה, ובכך מחבר באופן טבעי גם תלמידים בעלי כישורים הומניסטיים ואמנותיים.' },
+                { id: 'c8b', text: 'צמצום הפוטנציאל היצירתי: ההגבלה למדעים מונעת חשיבה אינטגרטיבית.', keyPractices: ['p3'], result: 'קיום **ישיבות תכנון משותפות** עם מורים ממקצועות מגוונים (אמנות, שפה, היסטוריה) פורץ את המחיצות ומעשיר את הפרויקטים בחשיבה יצירתית ואינטגרטיבית.' }
+            ]
+        },
+    ];
+    const practicesData = [
+        { id: 'p1', name: '🧩 פדגוגיה של PBL רבעוני', desc: 'הפיכת למידה מבוססת פרויקטים למהלך מתמשך עם שלבים.', cost: 3, category: 'פדגוגי' },
+        { id: 'p2', name: '🤝 שותפויות קהילה ולקוחות', desc: 'עבודה על אתגרים אמיתיים מהקהילה.', cost: 2, category: 'תרבותי/סביבתי' },
+        { id: 'p3', name: '🔄 ישיבות תכנון משותפות', desc: 'זמן קבוע בלו"ז למורים מדיסציפלינות שונות.', cost: 2, category: 'מנהיגותי/ארגוני' },
+        { id: 'p4', name: '📝 תהליך התכנון ההנדסי', desc: 'שימוש ב-EDP כמתודה מארגנת חובקת כל.', cost: 2, category: 'פדגוגי' },
+        { id: 'p5', name: '🧑‍💻 רכז/מוביל STEM', desc: 'יצירת תפקיד פנימי לליווי ומיסוד ידע.', cost: 3, category: 'מנהיגותי/ארגוני' },
+        { id: 'p6', name: '🗣️ תיעוד ציבורי של תהליכים', desc: 'הצגת פדגוגיה ושיטות בפני הצוות.', cost: 1, category: 'תרבותי/סביבתי' },
+        { id: 'p7', name: '🌳 פיתוח מקצועי ממוקד', desc: 'הכשרות עם מוצר מוגמר ליישום מיידי.', cost: 3, category: 'פיתוח מקצועי/ידע' },
+        { id: 'p8', name: '📊 ניתוח נתונים מתמטי', desc: 'שילוב AI וכלים דיגיטליים בהכשרות.', cost: 2, category: 'פיתוח מקצועי/ידע' },
+        { id: 'p9', name: '🧱 מרחבי יצירה גמישים', desc: 'מרכז יצירה פתוח עם חומרים פשוטים.', cost: 2, category: 'תרבותי/סביבתי' },
+        { id: 'p10', name: '🌲 שימוש במרחב החיצוני', desc: 'הפיכת החצר והגינה למעבדות פתוחות.', cost: 1, category: 'תרבותי/סביבתי' },
+        { id: 'p11', name: 'מנהיגות בית ספרית חזונית', desc: 'מנהל ביה"ס מציב את STEM כיעד מרכזי, מקצה זמן תכנון למורים ומבטיח שהתוכנית תהיה מקיפה ולא חד פעמית.', cost: 3, category: 'מנהיגותי/ארגוני' }
+    ];
+
+    let gameState = {};
+    let selectedIslandCount = 3;
+
+    function selectIslandCount(count) {
+        selectedIslandCount = count;
+        startGame();
+    }
+
+    function switchScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function startGame() {
+        const budgetMap = { 1: 8, 2: 12, 3: 15, 4: 18 };
+        const calculatedBudget = budgetMap[selectedIslandCount] || 15;
+        
+        gameState = {
+            selections: [],
+            appliedPractices: { i1: [], i2: [], i3: [], i4: [], i5: [], i6: [], i7: [], i8: [] },
+            budget: calculatedBudget,
+            maxIslands: selectedIslandCount,
+            results: {}
+        };
+        renderIslandSelection();
+        switchScreen('screen2-selection');
+    }
+
+    function restartGame() {
+        switchScreen('screen0-island-count');
+    }
+
+    function renderIslandSelection() {
+        const grid = document.getElementById('islandSelectionGrid');
+        grid.innerHTML = '';
+        islandsData.forEach(island => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.width = '240px';
+            const isSelected = gameState.selections.some(s => s.islandId === island.id);
+            if (isSelected) card.classList.add('selected');
+            
+            const selection = gameState.selections.find(s => s.islandId === island.id);
+            let statusBadge = '';
+            if (isSelected && selection.consequenceId) {
+                statusBadge = '<div style="background: var(--success-color); color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.85em; margin-top: 10px; display: inline-block;">✓ אובחן</div>';
+            } else if (isSelected) {
+                statusBadge = '<div style="background: var(--accent-color); color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.85em; margin-top: 10px; display: inline-block;">⏳ בחר השלכה</div>';
+            }
+            
+            card.innerHTML = `<h3>${island.name}</h3><p style="font-size: 0.9em; color: #666; line-height: 1.5;">${island.description}</p>${statusBadge}`;
+            card.onclick = () => openConsequenceModal(island.id);
+            grid.appendChild(card);
+        });
+        updateIslandSelectionButton();
+    }
+    
+    function openConsequenceModal(islandId) {
+        const island = islandsData.find(i => i.id === islandId);
+        const currentSelection = gameState.selections.find(s => s.islandId === islandId);
+        
+        let consequencesHTML = island.consequences.map(con => {
+            const isSelected = currentSelection && currentSelection.consequenceId === con.id;
+            return `<div class="card" onclick="selectConsequence('${island.id}', '${con.id}')" style="cursor:pointer; ${isSelected ? 'border-color: var(--primary-color); background: #EAF3FE;' : ''}">
+                <p style="margin: 0;">${con.text}</p>
+                ${isSelected ? '<div style="color: var(--primary-color); font-weight: 700; margin-top: 10px;">✓ נבחר</div>' : ''}
+            </div>`;
+        }).join('');
+        
+        const removeOption = currentSelection ? 
+            `<button class="btn" onclick="removeIslandSelection('${islandId}')" style="background: var(--error-color); margin-top: 15px;">הסר אי זה מהאבחון</button>` : '';
+        
+        document.getElementById('modalContent').innerHTML = `
+            <h2 style="color: var(--primary-color); margin-bottom: 5px;">${island.name}</h2>
+            
+            <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0; border-right: 4px solid #ffc107;">
+                <h3 style="color: #856404; margin: 0 0 8px 0; font-size: 1.1em;">🤔 מדוע זה קורה?</h3>
+                <p style="margin: 0; color: #856404; line-height: 1.6;">${island.reason}</p>
+            </div>
+            
+            <p style="font-size: 1.1em; margin: 20px 0 15px 0;"><strong>בחרו את ההשלכה המשמעותית ביותר שאתם מזהים:</strong></p>
+            ${consequencesHTML}
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="closeModal()" style="background: #95a5a6;">סגור</button>
+                ${removeOption}
+            </div>
+        `;
+        document.getElementById('consequenceModal').style.display = 'flex';
+    }
+
+    function selectConsequence(islandId, consequenceId) {
+        gameState.selections = gameState.selections.filter(s => s.islandId !== islandId);
+        if (gameState.selections.length < gameState.maxIslands) {
+            gameState.selections.push({ islandId, consequenceId });
+        }
+        closeModal();
+        renderIslandSelection();
+    }
+    
+    function removeIslandSelection(islandId) {
+        gameState.selections = gameState.selections.filter(s => s.islandId !== islandId);
+        closeModal();
+        renderIslandSelection();
+    }
+    
+    function closeModal() {
+        document.getElementById('consequenceModal').style.display = 'none';
+    }
+    
+    function updateIslandSelectionButton() {
+        const btn = document.getElementById('toStrategyBtn');
+        const count = gameState.selections.length;
+        const maxIslands = gameState.maxIslands || 4;
+        const allDiagnosed = gameState.selections.every(s => s.consequenceId);
+        
+        btn.textContent = `➡️ המשך לתכנון (נבחרו ${count} מתוך ${maxIslands} איים)`;
+        btn.disabled = !(count >= 1 && count <= maxIslands && allDiagnosed);
+        btn.onclick = () => { renderStrategyScreen(); switchScreen('screen3-strategy'); };
+    }
+
+    function renderStrategyScreen() {
+        renderMap();
+        renderPractices();
+        updateBudgetDisplay();
+        document.getElementById('implementBtn').onclick = () => implementPlan();
+    }
+
+    function renderMap() {
+        const map = document.getElementById('visualizationMap');
+        map.querySelectorAll('.island-wrapper').forEach(el => el.remove());
+
+        const numIslands = gameState.selections.length;
+        const centerX = 50;
+        const centerY = 50;
+        const radius = 42;
+        
+        gameState.selections.forEach((sel, index) => {
+            const islandData = islandsData.find(i => i.id === sel.islandId);
+            const consequence = islandData.consequences.find(c => c.id === sel.consequenceId);
+            
+            const angle = (index * 2 * Math.PI) / numIslands - Math.PI / 2;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'island-wrapper';
+            wrapper.id = `wrapper-${sel.islandId}`;
+            wrapper.style.position = 'absolute';
+            wrapper.style.left = `${x}%`;
+            wrapper.style.top = `${y}%`;
+            wrapper.style.transform = 'translate(-50%, -50%)';
+
+            const islandEl = document.createElement('div');
+            islandEl.className = 'map-island';
+            islandEl.dataset.id = sel.islandId;
+            islandEl.innerHTML = `
+                <h4 style="margin: 0 0 5px 0; font-size: 0.95em;">${islandData.name}</h4>
+                <p style="font-size: 0.7em; opacity: 0.95; margin: 0; line-height: 1.25;">${consequence.text}</p>
+            `;
+
+            const practicesContainer = document.createElement('div');
+            practicesContainer.className = 'dropped-practices-container';
+            practicesContainer.id = `dropped-for-${sel.islandId}`;
+            
+            // Always place practice tags to the sides (never above/below)
+            const isOnRightHalf = Math.cos(angle) >= 0;
+            if (isOnRightHalf) {
+                practicesContainer.style.left = '115%';
+                practicesContainer.style.top = '50%';
+                practicesContainer.style.transform = 'translateY(-50%)';
+            } else {
+                practicesContainer.style.right = '115%';
+                practicesContainer.style.top = '50%';
+                practicesContainer.style.transform = 'translateY(-50%)';
+            }
+
+            wrapper.appendChild(islandEl);
+            wrapper.appendChild(practicesContainer);
+            map.appendChild(wrapper);
+
+            islandEl.addEventListener('dragover', e => { e.preventDefault(); islandEl.classList.add('drag-over'); });
+            islandEl.addEventListener('dragleave', () => islandEl.classList.remove('drag-over'));
+            islandEl.addEventListener('drop', handleDrop);
+        });
+    }
+    
+    function renderPractices() {
+        const list = document.getElementById('practicesList');
+        list.innerHTML = '';
+        practicesData.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'card practice-card';
+            card.dataset.id = p.id;
+            card.draggable = true;
+            card.innerHTML = `<span class="practice-cost">${p.cost} נק'</span>
+                  <span style="float: right; font-size: 0.8em; color: var(--accent-color); font-weight: 600;">${p.category}</span>
+                  <h4>${p.name}</h4>
+                  <p>${p.desc}</p>`;
+            card.addEventListener('dragstart', e => {
+                if (card.classList.contains('disabled-budget')) e.preventDefault();
+                else e.dataTransfer.setData('text/plain', p.id);
+            });
+            list.appendChild(card);
+        });
+    }
+    
+    function handleDrop(e) {
+        e.preventDefault();
+        const islandEl = e.currentTarget;
+        islandEl.classList.remove('drag-over');
+        const islandId = islandEl.dataset.id;
+        const practiceId = e.dataTransfer.getData('text/plain');
+        const practice = practicesData.find(p => p.id === practiceId);
+
+        if (gameState.appliedPractices[islandId].includes(practiceId)) return;
+        if (gameState.budget >= practice.cost) {
+            gameState.budget -= practice.cost;
+            gameState.appliedPractices[islandId].push(practiceId);
+            renderDroppedPracticeTag(islandId, practice);
+            updateBudgetDisplay();
+        }
+    }
+
+    function renderDroppedPracticeTag(islandId, practice) {
+        const container = document.getElementById(`dropped-for-${islandId}`);
+        const tag = document.createElement('div');
+        tag.className = 'dropped-practice-tag';
+        tag.id = `dropped-${practice.id}-on-${islandId}`;
+        tag.innerHTML = `<span>${practice.name}</span><span class="remove-practice-btn">×</span>`;
+        tag.querySelector('.remove-practice-btn').onclick = () => removePractice(islandId, practice);
+        container.appendChild(tag);
+    }
+
+    function removePractice(islandId, practice) {
+        gameState.budget += practice.cost;
+        gameState.appliedPractices[islandId] = gameState.appliedPractices[islandId].filter(id => id !== practice.id);
+        document.getElementById(`dropped-${practice.id}-on-${islandId}`).remove();
+        updateBudgetDisplay();
+    }
+    
+    function updateBudgetDisplay() {
+        document.getElementById('budgetLeft').textContent = gameState.budget;
+        document.querySelectorAll('.practice-card').forEach(card => {
+            const practice = practicesData.find(p => p.id === card.dataset.id);
+            card.classList.toggle('disabled-budget', practice.cost > gameState.budget);
+        });
+    }
+    
+    function implementPlan() {
+        gameState.selections.forEach(sel => {
+            const islandId = sel.islandId;
+            const islandData = islandsData.find(i => i.id === islandId);
+            const consequence = islandData.consequences.find(c => c.id === sel.consequenceId);
+            const applied = gameState.appliedPractices[islandId];
+            
+            let score = 0;
+            const keyPracticesApplied = applied.filter(p => consequence.keyPractices.includes(p));
+            score += keyPracticesApplied.length * 50;
+            score += Math.min(30, applied.filter(p => !consequence.keyPractices.includes(p)).length * 10);
+            
+            gameState.results[islandId] = Math.min(100, score);
+        });
+        
+        switchScreen('screen4-results');
+        renderFullMap();
+        
+        setTimeout(() => {
+            gameState.selections.forEach(sel => {
+                const islandId = sel.islandId;
+                const islandWrapper = document.getElementById(`wrapper-full-${islandId}`);
+                const islandEl = islandWrapper ? islandWrapper.querySelector('.map-island') : null;
+                const health = gameState.results[islandId];
+                
+                if (!islandEl) return;
+                
+                let islandColor;
+                if (health >= 80) {
+                    islandColor = '#27AE60';
+                    islandEl.style.backgroundColor = islandColor;
+                } else if (health >= 60) {
+                    islandColor = '#52B788';
+                    islandEl.style.backgroundColor = islandColor;
+                } else if (health >= 40) {
+                    islandColor = '#F5A623';
+                    islandEl.style.backgroundColor = islandColor;
+                } else if (health >= 20) {
+                    islandColor = '#E67E22';
+                    islandEl.style.backgroundColor = islandColor;
+                } else {
+                    islandColor = '#C0392B';
+                    islandEl.style.backgroundColor = islandColor;
+                }
+                
+                // Color the practice tags individually by their effectiveness
+                const islandData = islandsData.find(i => i.id === islandId);
+                const consequence = islandData.consequences.find(c => c.id === sel.consequenceId);
+                const practicesContainer = document.getElementById(`dropped-full-for-${islandId}`);
+                
+                if (practicesContainer) {
+                    const tags = practicesContainer.querySelectorAll('.dropped-practice-tag');
+                    
+                    tags.forEach(tag => {
+                        const practiceId = tag.dataset.practiceId;
+                        const isKeyPractice = consequence.keyPractices.includes(practiceId);
+                        
+                        let tagColor, tagBgColor, dotColor;
+                        if (isKeyPractice) {
+                            // Key practice - Gold (worth 50 points)
+                            tagColor = '#FFD700';
+                            tagBgColor = '#FFF9E6';
+                            dotColor = '#FFD700';
+                        } else {
+                            // Supporting practice - Sky blue (worth 10 points)
+                            tagColor = '#4A90E2';
+                            tagBgColor = '#EAF3FE';
+                            dotColor = '#4A90E2';
+                        }
+                        
+                        tag.style.borderColor = tagColor;
+                        tag.style.backgroundColor = tagBgColor;
+                        tag.style.borderWidth = '3px';
+                        tag.style.borderStyle = 'solid';
+                        tag.style.boxShadow = `0 3px 10px ${tagColor}60`;
+                        
+                        // Add colored dot with glow effect
+                        const dot = document.createElement('span');
+                        dot.style.cssText = `
+                            display: inline-block;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background: ${dotColor};
+                            margin-left: 8px;
+                            box-shadow: 0 0 8px ${dotColor};
+                        `;
+                        tag.insertBefore(dot, tag.firstChild);
+                    });
+                }
+            });
+            
+            // חיבורי גשרים בין איים ואל היבשת הוסרו לבקשת המשתמש
+            
+            setTimeout(showResults, 2000);
+        }, 500);
+    }
+
+    function createBridgeFull(el1, el2) {
+        const map = document.getElementById('visualizationMapFull');
+        if (!map) return;
+        
+        const mapRect = map.getBoundingClientRect();
+        const rect1 = el1.getBoundingClientRect();
+        const rect2 = el2.getBoundingClientRect();
+        
+        const x1 = rect1.left + rect1.width / 2 - mapRect.left;
+        const y1 = rect1.top + rect1.height / 2 - mapRect.top;
+        const x2 = rect2.left + rect2.width / 2 - mapRect.left;
+        const y2 = rect2.top + rect2.height / 2 - mapRect.top;
+        
+        const length = Math.hypot(x2 - x1, y2 - y1);
+        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        
+        const bridge = document.createElement('div');
+        bridge.className = 'bridge bridge-to-continent';
+        Object.assign(bridge.style, { 
+            width: `${length}px`, 
+            left: `${x1}px`, 
+            top: `${y1}px`, 
+            transform: `rotate(${angle}deg) translateY(-7px)`,
+            height: '14px',
+            transformOrigin: 'left center'
+        });
+        map.appendChild(bridge);
+        
+        bridge.offsetHeight;
+        setTimeout(() => {
+            bridge.style.opacity = '1';
+        }, 100);
+    }
+    
+    function createIslandBridge(wrapper1, wrapper2, sharedCount) {
+        if (!wrapper1 || !wrapper2) return;
+        
+        const map = document.getElementById('visualizationMapFull');
+        if (!map) return;
+        
+        const island1 = wrapper1.querySelector('.map-island');
+        const island2 = wrapper2.querySelector('.map-island');
+        
+        if (!island1 || !island2) return;
+        
+        const rect1 = wrapper1.getBoundingClientRect();
+        const rect2 = wrapper2.getBoundingClientRect();
+        const mapRect = map.getBoundingClientRect();
+        
+        const x1 = rect1.left + rect1.width / 2 - mapRect.left;
+        const y1 = rect1.top + rect1.height / 2 - mapRect.top;
+        const x2 = rect2.left + rect2.width / 2 - mapRect.left;
+        const y2 = rect2.top + rect2.height / 2 - mapRect.top;
+        
+        const length = Math.hypot(x2 - x1, y2 - y1);
+        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        
+        const bridge = document.createElement('div');
+        bridge.className = 'bridge bridge-between-islands';
+        const thickness = Math.min(12, 8 + sharedCount * 2);
+        
+        Object.assign(bridge.style, { 
+            width: `${length}px`, 
+            left: `${x1}px`, 
+            top: `${y1}px`, 
+            transform: `rotate(${angle}deg) translateY(-${thickness/2}px)`,
+            height: `${thickness}px`,
+            opacity: '0',
+            position: 'absolute'
+        });
+        
+        map.appendChild(bridge);
+        
+        setTimeout(() => {
+            bridge.style.opacity = '0.8';
+        }, 300);
+    }
+    
+    function createIslandBridges() {
+        const islands = gameState.selections.map(sel => ({
+            id: sel.islandId,
+            wrapper: document.getElementById(`wrapper-full-${sel.islandId}`),
+            practices: gameState.appliedPractices[sel.islandId] || []
+        }));
+        
+        for (let i = 0; i < islands.length; i++) {
+            for (let j = i + 1; j < islands.length; j++) {
+                const island1 = islands[i];
+                const island2 = islands[j];
+                
+                const sharedPractices = island1.practices.filter(p => 
+                    island2.practices.includes(p)
+                );
+                
+                if (sharedPractices.length > 0 && island1.wrapper && island2.wrapper) {
+                    createIslandBridge(island1.wrapper, island2.wrapper, sharedPractices.length);
+                }
+            }
+        }
+    }
+    
+    function renderFullMap() {
+        const map = document.getElementById('visualizationMapFull');
+        map.querySelectorAll('.island-wrapper').forEach(el => el.remove());
+        map.querySelectorAll('.bridge').forEach(el => el.remove());
+
+        const numIslands = gameState.selections.length;
+        const centerX = 50;
+        const centerY = 50;
+        const radius = 35;
+        
+        gameState.selections.forEach((sel, index) => {
+            const islandData = islandsData.find(i => i.id === sel.islandId);
+            const consequence = islandData.consequences.find(c => c.id === sel.consequenceId);
+            const angle = (index * 2 * Math.PI) / numIslands - Math.PI / 2;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'island-wrapper';
+            wrapper.id = `wrapper-full-${sel.islandId}`;
+            wrapper.style.position = 'absolute';
+            wrapper.style.left = `${x}%`;
+            wrapper.style.top = `${y}%`;
+            wrapper.style.transform = 'translate(-50%, -50%)';
+
+            const islandEl = document.createElement('div');
+            islandEl.className = 'map-island';
+            islandEl.style.width = '170px';
+            islandEl.style.height = '170px';
+            islandEl.style.padding = '20px';
+            islandEl.style.fontSize = '0.95em';
+            islandEl.style.backgroundColor = '#C0392B';
+            islandEl.dataset.id = sel.islandId;
+            
+            const applied = gameState.appliedPractices[sel.islandId];
+            const appliedText = applied.length > 0 
+                ? `<p style="font-size: 0.65em; margin-top: 10px; opacity: 0.95;">גשרים שיושמו: ${applied.length}</p>` 
+                : '<p style="font-size: 0.65em; margin-top: 10px; opacity: 0.95;">ללא גשרים</p>';
+            
+            islandEl.innerHTML = `<h4 style="margin: 0 0 8px 0; font-size: 1em; line-height: 1.2;">${islandData.name}</h4>${appliedText}`;
+
+            const practicesContainer = document.createElement('div');
+            practicesContainer.className = 'dropped-practices-container';
+            practicesContainer.id = `dropped-full-for-${sel.islandId}`;
+            
+            // Always place practice tags to the sides (never above/below)
+            const isOnRightHalfFull = Math.cos(angle) >= 0;
+            if (isOnRightHalfFull) {
+                practicesContainer.style.left = '140%';
+                practicesContainer.style.top = '50%';
+                practicesContainer.style.transform = 'translateY(-50%)';
+            } else {
+                practicesContainer.style.right = '140%';
+                practicesContainer.style.top = '50%';
+                practicesContainer.style.transform = 'translateY(-50%)';
+            }
+            
+            // Add applied practices as tags with data-practice-id
+            applied.forEach(pId => {
+                const practice = practicesData.find(p => p.id === pId);
+                const tag = document.createElement('div');
+                tag.className = 'dropped-practice-tag';
+                tag.style.fontSize = '0.68em';
+                tag.style.padding = '4px 8px';
+                tag.dataset.practiceId = pId; // Store practice ID for coloring
+                tag.innerHTML = `<span>${practice.name}</span>`;
+                practicesContainer.appendChild(tag);
+            });
+
+            wrapper.appendChild(islandEl);
+            wrapper.appendChild(practicesContainer);
+            map.appendChild(wrapper);
+        });
+    }
+    
+    function showResults() {
+        const resultsPanel = document.getElementById('resultsPanel');
+        
+        const budgetMap = { 1: 8, 2: 12, 3: 15, 4: 18 };
+        const initialBudget = gameState.maxIslands ? budgetMap[gameState.maxIslands] : 15;
+        const totalCost = initialBudget - gameState.budget;
+        
+        const totalSuccess = Math.round(Object.values(gameState.results).reduce((a,b)=>a+b, 0) / gameState.selections.length);
+        const connectedIslands = Object.values(gameState.results).filter(r => r >= 80).length;
+
+        let statsHTML = `
+            <div style="display:flex; align-items:center; justify-content:center; gap:18px; background:linear-gradient(135deg, #f7fbff 0%, #eef6ff 100%); border:1px solid #e3efff; border-radius:14px; padding:10px 14px; box-shadow: 0 2px 10px rgba(74,144,226,0.12);">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="background:#e8f5e9; border:2px solid #27AE60; color:#1e7a45; font-weight:700; padding:4px 8px; border-radius:10px;">הצלחה כוללת</span>
+                    <span style="font-size:1.6em; font-weight:800; color:#2b6cb0;">${totalSuccess}%</span>
+                </div>
+                <div style="width:1px; height:22px; background:#d7e6ff;"></div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="background:#fff7e6; border:2px solid #f5a623; color:#a56312; font-weight:700; padding:4px 8px; border-radius:10px;">עלות</span>
+                    <span style="font-size:1.2em; font-weight:800; color:#2b6cb0;">${totalCost} נק'</span>
+                </div>
+                <div style="width:1px; height:22px; background:#d7e6ff;"></div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="background:#eef2f7; border:2px solid #9aa6b2; color:#44515e; font-weight:700; padding:4px 8px; border-radius:10px;">איים</span>
+                    <span style="font-size:1.2em; font-weight:800; color:#2b6cb0;">${gameState.selections.length}</span>
+                </div>
+            </div>
+        `;
+
+        const categoryInvestment = {};
+        Object.values(gameState.appliedPractices).forEach(practices => {
+            practices.forEach(pId => {
+                const practice = practicesData.find(p => p.id === pId);
+                if (practice) {
+                    if (!categoryInvestment[practice.category]) {
+                        categoryInvestment[practice.category] = { cost: 0, count: 0 };
+                    }
+                    categoryInvestment[practice.category].cost += practice.cost;
+                    categoryInvestment[practice.category].count += 1;
+                }
+            });
+        });
+
+        let categoryHTML = '';
+        if (Object.keys(categoryInvestment).length > 0) {
+            const categoryColors = {
+                'פדגוגי': '#4A90E2',
+                'מנהיגותי/ארגוני': '#00A99D',
+                'תרבותי/סביבתי': '#F5A623',
+                'פיתוח מקצועי/ידע': '#9B59B6'
+            };
+            
+            categoryHTML = `
+                <div style="background: #f8f9fa; padding: 14px; border-radius: 12px; margin: 16px 0; border: 1px solid #e9ecef;">
+                    <h3 style="text-align: center; color: var(--primary-color); margin: 0 0 10px 0; font-size: 1.2em;">📊 סיכום השקעה לפי קטגוריות</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                        ${Object.entries(categoryInvestment).map(([cat, data]) => `
+                            <div style=\"background: white; padding: 12px; border-radius: 8px; border-right: 4px solid ${categoryColors[cat] || '#666'}; box-shadow: 0 2px 5px rgba(0,0,0,0.06);\">\n                                <h4 style=\"margin: 0 0 6px 0; color: ${categoryColors[cat] || '#666'}; font-size: 0.95em;\">${cat}</h4>\n                                <p style=\"margin: 4px 0; font-size: 0.9em;\"><strong>השקעה:</strong> ${data.cost} נק'</p>\n                                <p style=\"margin: 4px 0; font-size: 0.9em;\"><strong>גשרים:</strong> ${data.count}</p>\n                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        let breakdownHTML = gameState.selections.map(sel => {
+            const island = islandsData.find(i => i.id === sel.islandId);
+            const consequence = island.consequences.find(c => c.id === sel.consequenceId);
+            const score = gameState.results[sel.islandId] || 0;
+            const applied = gameState.appliedPractices[sel.islandId];
+            const keyPracticesApplied = applied.filter(p => consequence.keyPractices.includes(p));
+            
+            const appliedNames = applied.map(p => practicesData.find(pr => pr.id === p).name).join(', ') || 'לא יושמו גשרים';
+            const keyNames = consequence.keyPractices.map(p => practicesData.find(pr => pr.id === p).name).join(', ');
+            
+            const supportingPractices = applied.filter(p => !consequence.keyPractices.includes(p));
+            const keyScore = keyPracticesApplied.length * 50;
+            const supportScore = Math.min(30, supportingPractices.length * 10);
+            
+            let scoreExplanationHTML = '';
+            if (score < 80) {
+                const missingKeyPractices = consequence.keyPractices.filter(p => !applied.includes(p));
+                const allOtherPractices = practicesData.filter(p => 
+                    !applied.includes(p.id) && 
+                    !consequence.keyPractices.includes(p.id)
+                );
+                
+                let recommendationsText = '';
+                if (missingKeyPractices.length > 0) {
+                    const missingNames = missingKeyPractices.map(p => practicesData.find(pr => pr.id === p).name).join(', ');
+                    recommendationsText += `<strong>גשרים מומלצים שחסרים:</strong> ${missingNames}<br>`;
+                }
+                
+                if (supportingPractices.length < 3 && allOtherPractices.length > 0) {
+                    const suggestedSupporting = allOtherPractices.slice(0, 3 - supportingPractices.length);
+                    const suggestedNames = suggestedSupporting.map(p => p.name).join(', ');
+                    recommendationsText += `<strong>גשרים תומכים מומלצים:</strong> ${suggestedNames}`;
+                }
+                
+                scoreExplanationHTML = `
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 12px 0; border-right: 3px solid #ffc107;">
+                        <p style="margin: 0 0 10px 0; font-size: 0.95em;"><strong>📊 פירוק הניקוד (${score}%):</strong></p>
+                        <ul style="margin: 5px 0; padding-right: 20px; font-size: 0.9em; line-height: 1.8;">
+                            <li><strong>${keyScore} נקודות</strong> מגשרים מומלצים - 🟡 זהב (${keyPracticesApplied.length}/${consequence.keyPractices.length} יושמו × 50 נק')</li>
+                            <li><strong>${supportScore} נקודות</strong> מגשרים תומכים - 🔵 תכלת (${supportingPractices.length} יושמו × 10 נק')</li>
+                        </ul>
+                        <div style="background: white; padding: 10px; border-radius: 6px; margin-top: 10px;">
+                            <p style="margin: 0 0 5px 0; font-size: 0.9em; color: #856404;"><strong>💡 כיצד להגיע ל-80%+:</strong></p>
+                            <p style="margin: 5px 0 0 0; font-size: 0.85em; line-height: 1.6; color: #666;">
+                                ${recommendationsText || 'יישום כל הגשרים המומלצים יבטיח הצלחה מלאה!'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                scoreExplanationHTML = `
+                    <div style="background: #d4edda; padding: 12px; border-radius: 8px; margin: 12px 0; border-right: 3px solid #28a745;">
+                        <p style="margin: 0; font-size: 0.9em; color: #155724;"><strong>✓ פירוק הניקוד (${score}%):</strong></p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #155724;">
+                            ${keyScore} נקודות מגשרים מומלצים (🟡 זהב) + ${supportScore} נקודות מגשרים תומכים (🔵 תכלת) = חיבור מוצלח!
+                        </p>
+                    </div>
+                `;
+            }
+            
+            let synergiesHTML = '';
+            const otherIslands = gameState.selections.filter(s => s.islandId !== sel.islandId);
+            const synergies = [];
+            
+            otherIslands.forEach(otherSel => {
+                const otherIsland = islandsData.find(i => i.id === otherSel.islandId);
+                const otherApplied = gameState.appliedPractices[otherSel.islandId];
+                const sharedPractices = applied.filter(p => otherApplied.includes(p));
+                
+                if (sharedPractices.length > 0) {
+                    const sharedNames = sharedPractices.map(p => practicesData.find(pr => pr.id === p).name).join(', ');
+                    synergies.push(`<span style="color: #667eea;">🟣 ${otherIsland.name}</span> (${sharedNames})`);
+                }
+            });
+            
+            if (synergies.length > 0) {
+                synergiesHTML = `
+                    <div style="background: #f3f0ff; padding: 12px; border-radius: 8px; margin-top: 12px; border-right: 3px solid #667eea;">
+                        <p style="margin: 0; font-size: 0.9em;"><strong>🔗 סינרגיות עם איים אחרים:</strong></p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #555; line-height: 1.6;">${synergies.join('<br>')}</p>
+                    </div>
+                `;
+            }
+            
+            let borderColor, statusText, statusColor;
+            if (score >= 80) {
+                borderColor = '#27AE60';
+                statusText = '✓ חיבור מוצלח מלא ליבשת!';
+                statusColor = '#27AE60';
+            } else if (score >= 60) {
+                borderColor = '#52B788';
+                statusText = '⚡ חיבור טוב - אפשר לשפר';
+                statusColor = '#52B788';
+            } else if (score >= 40) {
+                borderColor = '#F5A623';
+                statusText = '⚠ חיבור חלקי - חסרים גשרים מרכזיים';
+                statusColor = '#F5A623';
+            } else if (score >= 20) {
+                borderColor = '#E67E22';
+                statusText = '⚠ חיבור חלש - נדרשת התערבות משמעותית';
+                statusColor = '#E67E22';
+            } else {
+                borderColor = '#C0392B';
+                statusText = '✗ אין חיבור - לא יושמו גשרים';
+                statusColor = '#C0392B';
+            }
+            
+            return `<div class="result-card" style="padding: 24px; border-radius: 14px; background: white; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border-right: 6px solid ${borderColor};">
+                        <h3 style="margin-top: 0; font-size:1.15em;">${island.name} (${score}% הצלחה)</h3>
+                        <div style="background: #f8f9fa; padding: 14px; border-radius: 10px; margin: 12px 0; border-right: 3px solid #6c757d;">
+                            <p style="margin: 0; font-size: 0.95em;"><strong>📋 ההשלכה שאובחנה:</strong></p>
+                            <p style="margin: 5px 0 0 0; color: #495057;">${consequence.text}</p>
+                        </div>
+                        ${scoreExplanationHTML}
+                        <p><strong>גשרים שיושמו:</strong> ${appliedNames}</p>
+                        <p><strong>גשרים מומלצים להשלכה זו:</strong> ${keyNames}</p>
+                        <p style="font-weight: 600; color: ${statusColor}; font-size: 1.1em; margin: 15px 0;">
+                            ${statusText}
+                        </p>
+                        ${synergiesHTML}
+                        <div style="background: #e8f5e9; padding: 14px; border-radius: 10px; margin-top: 12px; border-right: 3px solid #27AE60;">
+                            <p style="margin: 0; font-size: 0.9em;"><strong>💡 התוצאה המיטבית:</strong></p>
+                            <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #2e7d32;">${consequence.result}</p>
+                        </div>
+                    </div>`;
+        }).join('');
+
+        const numColumns = gameState.selections.length > 1 ? 2 : 1;
+
+        resultsPanel.innerHTML = `
+            ${statsHTML}
+            ${categoryHTML}
+            <div style="display:grid; width:100%; grid-template-columns: repeat(${numColumns}, minmax(0, 1fr)); gap: 16px; align-items:start; justify-content:stretch;">
+                ${breakdownHTML}
+            </div>
+            
+        `;
+    }
+    </script>
+</body>
+</html>
