@@ -40,9 +40,13 @@
             margin-bottom: 16px;
         }
         .branding .logo {
-            height: 42px;
+            height: 50px; /* Unified height for side logos */
             width: auto;
             object-fit: contain;
+        }
+        /* NEW: Style for the enlarged center logo */
+        .branding .logo-center {
+            height: 80px; /* Significantly larger */
         }
         .branding .brand-title {
             margin: 0;
@@ -93,7 +97,6 @@
         }
         .btn:disabled { background: #bdc3c7; cursor: not-allowed; box-shadow: none; }
         
-        /* NEW: Secondary button style for "Back" buttons */
         .btn-secondary {
             background: #95a5a6;
             font-size: 1.1em;
@@ -516,11 +519,13 @@
 </head>
 <body>
     <div class="container">
+        <!-- === UPDATED BRANDING SECTION === -->
         <div class="branding">
-            <img src="logo1.png" alt="Logo 1" class="logo">
-            <h2 class="brand-title">מאיים ליבשת STEM</h2>
-            <img src="logo2.png" alt="Logo 2" class="logo">
+            <img src="logostem.jpg" alt="לוגו האגף לחינוך יסודי" class="logo">
+            <img src="logo2.png" alt="מאיים ליבשת STEM" class="logo logo-center">
+            <img src="logo1.png" alt="לוגו משרד החינוך" class="logo">
         </div>
+        
         <!-- Screen 0: Island Count Selection -->
         <div class="screen" id="screen0-island-count">
             <div class="screen-header">
@@ -836,13 +841,17 @@
     }
 
     function restartGame() {
-        switchScreen('screen0-island-count');
+        // Instead of going directly to screen0, go back to the welcome screen
+        switchScreen('screen1-welcome');
     }
 
     function renderIslandSelection() {
         const grid = document.getElementById('islandSelectionGrid');
         grid.innerHTML = '';
-        islandsData.forEach(island => {
+        // Create a shuffled list of islands to present a random subset
+        const shuffledIslands = [...islandsData].sort(() => 0.5 - Math.random());
+
+        shuffledIslands.forEach(island => {
             const card = document.createElement('div');
             card.className = 'card';
             card.style.width = '240px';
@@ -1266,7 +1275,6 @@
             const score = gameState.results[sel.islandId] || 0;
             const applied = gameState.appliedPractices[sel.islandId];
             const keyPracticesApplied = applied.filter(p => consequence.keyPractices.includes(p));
-            const appliedNames = applied.map(p => practicesData.find(pr => pr.id === p).name).join(', ') || 'לא יושמו גשרים';
             const keyNames = consequence.keyPractices.map(p => practicesData.find(pr => pr.id === p).name).join(', ');
             const supportingPractices = applied.filter(p => !consequence.keyPractices.includes(p));
             const keyScore = keyPracticesApplied.length * 50;
