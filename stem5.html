@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מסמך למפקח/ה: מאבחון יוזמות STEM לגיבוש תפיסה מערכתית</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A90E2; 
+            --secondary-color: #00A99D; 
+            --accent-color: #F5A623; 
+            --text-color: #333333;
+            --bg-color: #F4F7F9;
+            --border-color: #EAECEF;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+        }
+.container {
+            max-width: 1100px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+.branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 6px 8px 12px 8px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+.branding img.logo { height: 50px; width: auto; object-fit: contain; }
+.branding img.logo-center { height: 80px; }
+        
+        h1, h2, h3 {
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.6em;
+        }
+        h2 {
+            font-size: 2em;
+            color: var(--secondary-color);
+            border-right: 4px solid var(--secondary-color);
+            padding-right: 15px;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        p, li {
+            font-size: 1.1em;
+        }
+.intro,.strategic-background {
+            text-align: right; /* Changed to right align for flow */
+            font-size: 1.25em;
+            color: #666;
+            max-width: 850px;
+            margin: 20px auto 40px auto;
+            padding-bottom: 25px;
+        }
+.definition {
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        
+.table-summary {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            font-size: 1.05em;
+        }
+.table-summary th,.table-summary td {
+            padding: 15px;
+            text-align: right;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+.table-summary thead th {
+            background-color: #34495e;
+            color: white;
+        }
+.table-summary td:nth-child(1) { font-weight: 700; background-color: #f8f9fa; }
+.table-summary td:nth-child(2) { background-color: #fff9e6; }
+.table-summary td:nth-child(3) { background-color: #fbe9e7; }
+        
+.practices-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+.practices-table th,.practices-table td {
+            padding: 15px;
+            text-align: right;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+.practices-table thead th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+.practices-table td:nth-child(1) { font-weight: 700; background-color: #f8f9fa; width: 25%; }
+.practices-table td:nth-child(2) { font-weight: 700; background-color: #eaf3fe; width: 35%;}
+.practices-table td:nth-child(3) { background-color: #e8f5e9; font-size: 0.95em; }
+
+.questions-section {
+            margin-top: 30px;
+        }
+.questions-list {
+            padding-right: 0;
+            list-style-type: none;
+            counter-reset: question-counter;
+        }
+.questions-list li {
+            counter-increment: question-counter;
+            margin-bottom: 15px;
+            padding-right: 35px;
+            position: relative;
+        }
+.questions-list li::before {
+            content: counter(question-counter);
+            position: absolute;
+            right: 0;
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 700;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            line-height: 1;
+        }
+        
+.references {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+.references p {
+            font-size: 1em; /* Override for p inside references */
+        }
+.references ul {
+            list-style-type: none;
+            padding-right: 0;
+            counter-reset: ref-counter;
+        }
+.references li {
+            counter-increment: ref-counter;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+.references li::before {
+            content: "[" counter(ref-counter) "]";
+            font-weight: 700;
+            margin-left: 5px;
+        }
+.glossary {
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+.glossary dl {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            column-gap: 20px;
+            row-gap: 10px;
+            padding-right: 15px;
+        }
+.glossary dt {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+.glossary dd {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="branding">
+            <img src="logostem.jpg" alt="לוגו האגף לחינוך יסודי" class="logo">
+            <img src="logo2.png" alt="מאיים ליבשת STEM" class="logo logo-center">
+            <img src="logo1.png" alt="לוגו משרד החינוך" class="logo">
+        </div>
+
+        <h1>מאבחון יוזמות STEM נקודתיות לגיבוש תפיסה מערכתית</h1>
+        <p class="strategic-background">
+            <b>רקע אסטרטגי:</b> הטמעת חינוך STEM (Science, Technology, Engineering, and Mathematics) אינטגרטיבי בבית הספר היסודי מהווה ציר אסטרטגי קריטי בשני מישורים מרכזיים:
+            <br><br>
+            <b>ברמה הלאומית-כלכלית:</b> חיזוק התחרותיות הכלכלית של המדינה ושמירה על מעמדה כמובילה בחדשנות עולמית.[1, 2] יצירת **צינור כישרונות עתידי (Talent Pipeline)** מחייבת טיפוח שיטתי ועקבי של תלמידים החל מגיל צעיר, כדי להבטיח מאגר עתידי של אנשי מקצוע בתחומים טכנולוגיים ומדעיים.[3, 4]
+            <br>
+            <b>ברמה האישית-חינוכית:</b> פיתוח מיומנויות חיים חיוניות לכל תלמיד, ללא קשר לקריירה העתידית שלו. חינוך STEM מטפח חשיבה ביקורתית, יכולת פתרון בעיות, יצירתיות וחדשנות – מיומנויות הרלוונטיות לכל תחום מקצועי ולחיי היומיום.[5] בעידן הדיגיטלי, אוריינות טכנולוגית ומדעית בסיסית היא תנאי הכרחי לאזרחות מושכלת, לקבלת החלטות מבוססות מידע, ולהבנת העולם המורכב שסביבנו.[6] חשיפה שוויונית ל-STEM מגיל צעיר תורמת גם לצמצום פערים חברתיים ומגדריים.[7]
+            <br><br>
+            האתגר המרכזי העומד בפני המערכת הוא המעבר מיוזמות מבודדות - **"איי STEM"** - לתפיסה כוללת, עקבית ומערכתית - **"יבשת STEM"** - המיושמת באופן אחיד בכלל המערכת החינוכית.[8]
+        </p>
+
+        <h2>חלק א': ניתוח תמונת המצב – "איי ה-STEM" המקומיים</h2>
+        <p>הטבלה הבאה מציגה ביטויים נפוצים של למידת STEM הקיימים בבתי הספר היסודיים, אשר כשלעצמם אינם מעידים על תפיסה מערכתית.</p>
+        
+        <table class="table-summary">
+            <thead>
+                <tr>
+                    <th>ביטוי "אי STEM" קיים</th>
+                    <th>סיבה אפשרית</th>
+                    <th>השלכות ואתגרים אפשריים</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>פעילויות רובוטיקה/העשרה או ימי שיא/תחרויות חד-פעמיות [9, 10]</td>
+                    <td class="col-reason">קל יותר לגייס תמיכה חיצונית או תקציב נקודתי לאירועים בעלי נראות גבוהה, ללא צורך בשינוי מבני מורכב.[11]</td>
+                    <td class="col-consequences"><b>פער נגישות ואי-שוויון:</b> הפעילות מוגבלת לקבוצה קטנה (תלמידים נלהבים או מצטיינים), ואינה יוצרת שינוי פדגוגי מערכתי לכלל התלמידים.[7] <br><b>חוסר רצף:</b> אירועים קצרים אינם מספקים את העומק הנדרש לשינוי תפיסתי מתמשך.[12]</td>
+                </tr>
+                <tr>
+                    <td>הוראה דיסציפלינרית נפרדת (מדעים לחוד, מתמטיקה לחוד) [13]</td>
+                    <td class="col-reason"><b>חוסר ידע תוכני/פדגוגי ספציפי</b> [14]: מורים חסרים ידע בהנדסה/טכנולוגיה ומרגישים לא מוכנים לגישה אינטרדיסציפלינרית.[15]</td>
+                    <td class="col-consequences"><b>היעדר הקשר ומוטיבציה נמוכה:</b> התלמידים אינם מזהים את הלימה בין הידע לפתרון בעיות אמיתיות וזה פוגע במוטיבציה.[16, 17]</td>
+                </tr>
+                <tr>
+                    <td>מורה חלוץ יחיד המיישם גישות מתקדמות בכיתתו (Pioneer Teacher) [18]</td>
+                    <td class="col-reason"><b>חוסר תמיכה אדמיניסטרטיבית</b> והיעדר מומחה פנימי להרחבת המודל לצוות כולו.[3, 18]</td>
+                    <td class="col-consequences"><b>חוסר קיימות:</b> התוכנית תלויה באדם בודד ואינה שורדת במקרה של עזיבה. <br><b>חוסר אחידות:</b> פוגע ביכולת לבסס חזון אחיד ושפה משותפת.[13]</td>
+                </tr>
+                <tr>
+                    <td>סדנאות פיתוח מקצועי (PD) קצרות, תיאורטיות וחד-פעמיות [19, 20]</td>
+                    <td class="col-reason">אילוצי זמן ותקציב במערכת המעדיפה פתרונות מהירים.[14]</td>
+                    <td class="col-consequences"><b>TSE נמוך וקיפאון בפרקטיקה:</b> הכשרה לא אינטנסיבית אינה בונה את הביטחון העצמי של המורה (TSE) [20] ומובילה להימנעות מיישום מעשי של פדגוגיות מורכבות (כגון EDP).[21]</td>
+                </tr>
+                <tr>
+                    <td>שימוש כמעט בלעדי בהערכה מסכמת (מבחנים) [22, 23]</td>
+                    <td class="col-reason">קושי מהותי בהערכת מיומנויות ביצוע מורכבות (כגון EDP) ודרישות אקדמיות מסורתיות.[5]</td>
+                    <td class="col-consequences"><b>כשל בזיהוי פערים ותפיסות שגויות בזמן אמת:</b> הערכה מסכמת אינה מאפשרת תיקון מסלול מיידי [23], ואינה מודדת מיומנויות חשיבה גבוהה (כגון יצירתיות ושיתוף פעולה).[24]</td>
+                </tr>
+                <tr>
+                    <td>למידת STEM מתרחשת רק במעבדת המדעים [25]</td>
+                    <td class="col-reason">תפיסה מסורתית המקשרת מדע לציוד מעבדה מוגדר [26] וחוסר גמישות מרחבית בכיתות הרגילות.[27]</td>
+                    <td class="col-consequences"><b>פגיעה בנגישות ובהכללה:</b> הלמידה תלויה בלוח זמנים של המעבדה ואינה משולבת בסביבת הלמידה היומיומית. <br><b>חוסר רלוונטיות:</b> מנתקת את הלמידה מהמרחב הטבעי ומהאתגרים היומיומיים.[28]</td>
+                </tr>
+                <tr>
+                    <td>למידת STEM מתקיימת רק במסגרת שיעורי מדעים ומתמטיקה [18, 29]</td>
+                    <td class="col-reason">הימנעות מורים מדיסציפלינות אחרות (כגון שפה, אומנות) מלשלב תוכן STEM עקב חוסר ידע וביטחון.[30]</td>
+                    <td class="col-consequences"><b>החמצת פוטנציאל אינטגרטיבי:</b> STEM דורש שילוב עם תחומי דעת נוספים (כגון שפה לצורך תיעוד ורפלקציה) כדי לחזק את כישורי המאה ה-21.[13] <br><b>הפרדה מלאכותית:</b> אינה משקפת את האופי האינטרדיסציפלינרי של בעיות העולם האמיתי.[16]</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>חלק ב': פרקטיקות מוכחות להפיכת יוזמות נקודתיות לשפה בית ספרית</h2>
+        <p>המעבר ל"יבשת STEM" דורש גישה מערכתית המטפלת בו-זמנית במוכנות המורה, בשיטות ההוראה ובתמיכה הניהולית. הטבלה הבאה מחברת בין האתגרים לפרקטיקות המוכחות מחקרית להתמודדות.</p>
+        
+        <table class="practices-table">
+            <thead>
+                <tr>
+                    <th>האתגר המרכזי (האי)</th>
+                    <th>הפרקטיקה המוכחת להתמודדות</th>
+                    <th>רקע ביבליוגרפי (ההוכחה)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>מוכנות מורים ו-TSE נמוך</b><br><span class="definition">TSE: אמון עצמי של המורה [31]</span></td>
+                    <td class="col-practice"><b>פיתוח מקצועי (PD) אינטנסיבי ומוטמע פרקטיקה:</b> PD חייב להיות מתמשך וממוקד בתוכן, <b>להימשך תקופה משמעותית</b> (למשל, 80 שעות על פני 6 חודשים) [19] ולכלול למידה פעילה, קבלת משוב ותמיכת מומחים.[20, 32, 33]</td>
+                    <td class="col-rationale">PD אפקטיבי מוכח כמשפר את ידע המורים, את שביעות רצונם ואת <b>הביטחון העצמי</b> שלהם ביישום (TSE).[20] חוויה אותנטית בהכשרה משפיעה לחיוב על עמדות המורים כלפי STEM.[34]</td>
+                </tr>
+                <tr>
+                    <td><b>הוראה דיסציפלינרית</b><br>(מדעים לחוד, מתמטיקה לחוד)</td>
+                    <td class="col-practice"><b>אימוץ PBL ו-EDP כציר מארגן ליבתי:</b> שימוש בלמידה מבוססת פרויקטים (PBL) ובמודל תהליך התכנון ההנדסי (EDP).[16, 17] ה-EDP מחייב שילוב ידע מדעי ומתמטי במסגרת אתגר הנדסי רלוונטי.[35]<br><span class="definition">EDP: תהליך התכנון ההנדסי [17]</span></td>
+                    <td class="col-rationale">PBL משפר משמעותית את תוצאות הלמידה [6] ואת <b>המוטיבציה והעניין בלמידה</b> (SMD = 0.713), ומחזק מיומנויות חשיבה יצירתית וחישובית.[6]</td>
+                </tr>
+                <tr>
+                    <td><b>חוסר קיימות וחזון אחיד</b><br>(פעילות נקודתית, תלות במורה יחיד)</td>
+                    <td class="col-practice"><b>מיסוד תפקיד מוביל/רכז STEM (STEM Specialist/Coordinator):</b> דמות פנים-בית ספרית שמתמקדת בבניית יכולת (Capacity Building) של הצוות, ומוודאת שהמורים עוברים מליווי משותף <b>להנחיה עצמאית</b> של EDP.[1, 36]</td>
+                    <td class="col-rationale">יצירת חזון אחיד ושיח מקצועי רציף חיוניים כדי להבטיח עקביות במתן הזדמנויות למידה לכל התלמידים.[13]</td>
+                </tr>
+                <tr>
+                    <td><b>הערכה מסכמת בלבד</b><br>(היעדר מדידת מיומנויות)</td>
+                    <td class="col-practice"><b>הטמעת הערכה מעצבת דיאלוגית ורוּבְּרִיקוֹת:</b> הגברת השימוש בהערכה מעצבת [22], המאפשרת למורים לתכנן הוראה עתידית לפי צרכי התלמידים.[23] שימוש ברוּבְּרִיקוֹת להערכה עצמית ולמשוב דיאלוגי.[4, 37]</td>
+                    <td class="col-rationale">הערכה מעצבת חיונית לשיפור הביצועים האקדמיים, במיוחד בקרב תלמידים צעירים בעלי הישגים נמוכים.[22] רוּבְּרִיקוֹת ל-SELF-ASSESSMENT משפרות מטא-קוגניציה ומעודדות "חשיבה צמיחה".[38]</td>
+                </tr>
+                <tr>
+                    <td><b>תשתיות לא גמישות</b><br>(למידה רק במעבדה)</td>
+                    <td class="col-practice"><b>תכנון גמיש ופתרונות בעלות נמוכה (Flexible Design):</b> שימוש בריהוט נייד [27], צבע מחיק [27] ואחסון שקוף [39] כדי ליצור מרחבי למידה שיתופיים בתוך הכיתה הרגילה.</td>
+                    <td class="col-rationale">תכנון גמיש מסיר את החסם הפיזי ומאפשר למידה פעילה ושיתופית הנדרשת עבור PBL ו-EDP, ללא תלות במעבדות יקרות.[39]</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>חלק ג': שאלות מפתח למפקח/ה בית הספר</h2>
+        <p>על מנת לסייע למנהל בית הספר למקד את החוזקות והחולשות של תוכנית ה-STEM הבית ספרית, מומלץ להתמקד בשאלות הבאות:</p>
+        
+        <div class="questions-section">
+            <h3>1. שאלות בנושא פדגוגיה אינטגרטיבית (המעבר מדיסציפלינה ל-EDP)</h3>
+            <ol class="questions-list">
+                <li><b>רצף וחזון:</b> "האם יש לבית הספר חזון STEM כתוב ומוסכם, והאם הוא יוצר שפה משותפת ואחידות בין צוותי ההוראה משכבה א' עד ו'?" [13]</li>
+                <li><b>הטמעת EDP:</b> "כיצד תהליך התכנון ההנדסי (EDP) מוטמע באופן עקבי בכל שיעור STEM, והאם ניתן לראות כיצד הוא משלב בפועל ידע מדעי, מתמטי וטכנולוגי באתגרים רלוונטיים?" [16, 17]</li>
+                <li><b>מעורבות כללית:</b> "מהם הנתונים המראים כיצד הלמידה האינטגרטיבית משיגה מעורבות ועניין בקרב תלמידים שאינם חלק ממועדוני מצטיינים או תחרויות?" [24]</li>
+            </ol>
+
+            <h3>2. שאלות בנושא משאבי אנוש וקיימות (המעבר ממורה בודד לתרבות)</h3>
+            <ol class="questions-list">
+                <li><b>מנהיגות פנימית:</b> "האם מונה רכז/מוביל STEM (Coordinator/Specialist), ומהם המדדים המראים את השפעתו על העלאת הביטחון העצמי (TSE) של מורי הצוות ביישום EDP?" [1, 31]</li>
+                <li><b>איכות ה-PD:</b> "כיצד תכנית הפיתוח המקצועי לצוות היא <b>מתמשכת ואינטנסיבית</b> (ולא חד-פעמית), ואיך היא מבטיחה התנסות מעשית ודיאלוג שוטף (Coaching) למורים על הפרקטיקה בכיתה?" [20, 19]</li>
+                <li><b>תמיכה אדמיניסטרטיבית:</b> "באיזו מידה צוות הניהול מקדם את תוכנית ה-STEM, מבטיח זמן לתכנון משותף בין מורים שונים, ומבסס את התוכנית כחלק קבוע מתוכנית העבודה השנתית?" [13, 18]</li>
+            </ol>
+
+            <h3>3. שאלות בנושא תשתיות והערכה (המעבר מפתרונות נקודתיים למיסוד)</h3>
+            <ol class="questions-list">
+                <li><b>גמישות מרחבית:</b> "כיצד סביבת הלמידה הפיזית תומכת בפדגוגיה הנדרשת (PBL ושיתוף פעולה)? האם הכיתות הרגילות מאפשרות גמישות באמצעות ריהוט נייד ופתרונות בעלות נמוכה, או שהלמידה תלויה במעבדה נפרדת?" [40, 39]</li>
+                <li><b>כלי הערכה:</b> "באילו כלים (שאינם מבחן מסכם) המורים משתמשים כדי להעריך מיומנויות ביצוע (כגון שיתוף פעולה או חשיבה יצירתית)? והאם נעשה שימוש ברוּבְּרִיקוֹת להערכה עצמית ולמשוב דיאלוגי?" [38, 21, 37]</li>
+                <li><b>צמצום פערים:</b> "האם יש שימוש בהערכה מעצבת באופן תדיר, והאם הנתונים מהערכה זו מנותחים כדי לזהות פערים קונספטואליים ספציפיים ולספק תמיכה לתלמידים המתקשים?" [22, 23]</li>
+            </ol>
+        </div>
+
+        <div class="glossary">
+            <h3>מילון מונחים מקצועיים (STEM Glossary)</h3>
+            <dl>
+                <dt>STEM (Science, Technology, Engineering, Mathematics)</dt>
+                <dd>גישה חינוכית אינטגרטיבית המשלבת ארבעה תחומי דעת אלה, תוך התמקדות בפתרון בעיות אמיתיות ופיתוח חשיבה ביקורתית ויצירתית.</dd>
+                <dt>EDP (Engineering Design Process) - תהליך התכנון ההנדסי</dt>
+                <dd>מודל פדגוגי מובנה הממוקד בפתרון בעיות. התלמידים מגדירים צורך, מתכננים אב-טיפוס, בונים, בודקים ומשפרים באופן מחזורי (Iterative).</dd>
+                <dt>PBL (Project-Based Learning) - למידה מבוססת פרויקטים</dt>
+                <dd>שיטת הוראה שבה התלמידים עובדים על פרויקט ממושך שמעוגן באתגר מורכב או בבעיה מהעולם האמיתי, ומחייב שילוב של ידע מתחומים שונים (אינטגרטיביות).</dd>
+                <dt>TSE (Teacher Self-Efficacy) - אמון עצמי של המורה</dt>
+                <dd>מידת הביטחון של המורה ביכולתו לתכנן, לבצע ולהצליח ביישום פרקטיקות הוראה מורכבות, כגון הוראת STEM אינטגרטיבית.</dd>
+                <dt>PD (Professional Development) - פיתוח מקצועי</dt>
+                <dd>הכשרות וסדנאות מתמשכות למורים, שנועדו להעמיק את הידע התוכני והפדגוגי שלהם ולבנות את מיומנותם ליישם שיטות הוראה חדשניות.</dd>
+            </dl>
+        </div>
+        
+        <div class="references">
+            <h3>מקורות</h3>
+            <p>הרשימה המלאה של המקורות ששימשו לבניית מסמך זה (המספרים בסוגריים המרובעים בטקסט מקשרים לרישום זה):</p>
+            <ul>
+                <li>[1] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[16] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[13] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[17] Wahono, L. S., Lin, P. L., & Chang, T. W. (2020). *Integrated STEM Project-Based Learning in the Context of Technological Design*.</li>
+                <li>[24] Li, Y. et al. (2023). *Impact of Project-Based Learning on Student Learning Outcomes in STEM Education: A Meta-Analysis*. (Frontiers in Education).</li>
+                <li>[9] NMS (2024). *Evaluating Impact: Measuring Success in STEM Education Programs*.</li>
+                <li>[12] Akgün, A., & Çiftçi, S. (2020). *Research on the Effect of Project-Based Learning on Students' Learning Outcomes in STEM Education*.</li>
+                <li>[8] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[14] Nguyen, N. T. P. et al. (2024). *Uncovering the Challenges of Elementary School Teachers in Implementing STEM Educational Activities*.</li>
+                <li>[25] משרד החינוך (2022). *אבני דרך - סביבות למידה מקדמות STEM בחינוך היסודי*.</li>
+                <li>[41] Holmlund, L., Silfver, E. (2023). *Elementary Teacher Readiness in Integrated STEM*. (ERIC).</li>
+                <li>[15] Akbayir, H. (2023). *Consequences of Low STEM Teacher Self-Efficacy in the Elementary Classroom*. (UKnowledge).</li>
+                <li>[26] Kibirige, I. (2022). *Primary Teachers' Challenges in Implementing ICT in STEM*.</li>
+                <li>[4] Van der Kleij, F. M. et al. (2019). *The Role of Dialogic Feedback in Improving Student Performance*.</li>
+                <li>[19] Baykara, H. (2025). *The effect of a comprehensive STEM PD program on science teachers' competencies*. (AIMS Press).</li>
+                <li>[30] Flodén, J. (2017). *The Impact of Student Feedback on Teaching in Higher Education*. (Taylor & Francis Online).</li>
+                <li>[11] Kibirige, I. (2022). *Primary Teachers' Challenges in Implementing ICT in STEM*.</li>
+                <li>[31] Baysal, A., & Mutlu, Z. (2021). *Effective PD Models for Elementary STEM Teacher Self-Efficacy: A Meta-Analysis*.</li>
+                <li>[22] Connor, C. M. et al. (2021). *Formative Assessment and Data for Primary Grade Learners*. (IEEE).</li>
+                <li>[20] Darling-Hammond et al. (2017). *Synthesising Seven Key Characteristics of Effective Professional Development*.</li>
+                <li>[18] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[6] Goodnough, K. (2014). *Elementary Pre-service Teachers' Perceptions of STEM Preparation*. (Memorial University).</li>
+                <li>[40] FHA Architects (2024). *Designing STEM Spaces on a Tight Budget: Low-Cost, Flexible Design Solutions*.</li>
+                <li>[39] American Modular (2023). *Your Guide to Effective STEM Classroom Design*.</li>
+                <li>[21] The National Academies of Sciences, Engineering, and Medicine (2016). *Barriers to Scaling and Sustainability in STEM Education*.</li>
+                <li>[38] Teachers Pay Teachers (2024). *STEM Assessment Rubric - FREE Self-Assessment*.</li>
+                <li>[28] Science Buddies (2024). *Civil Engineering STEM Activities for Kids*.</li>
+                <li>[42] American Modular (2023). *Your Guide to Effective STEM Classroom Design*.</li>
+                <li>[34] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[3] Holmlund, L., Silfver, E., & Svedberg, I. (2018). *Recommendations and Emphases for Optimal Implementation of an Integrated, Equity-Promoting STEM Education Approach* (מתוך מסמך חזון של משרד החינוך, מתורגם).</li>
+                <li>[10] NMS (2024). *Evaluating Impact: Measuring Success in STEM Education Programs*.</li>
+                <li>[35] Sanders, M. E., & Wahono, L. S. (2020). *STEM Project-Based Learning combined with the Engineering Design Process (EDP-STEM-PBL)*.</li>
+                <li>[23] Poorvu Center for Teaching and Learning (2024). *Formative and Summative Assessments: Yale University*.</li>
+                <li>[7] Kapor Center (2022). *Inequitable Gaps in Access to STEM Coursework*.</li>
+                <li>[32] Maeng and Bell (2015). *Effective PD: Sustained and Ongoing with Coaching or Expert Support*.</li>
+                <li>[43] משרד החינוך (2024). *מתווה הפיתוח המקצועי למורי "ישראל ריאלית"*.</li>
+                <li>[29] Kibirige, I. (2022). *Primary Teachers' Challenges in Implementing ICT in STEM*.</li>
+                <li>[33] Auerbach and Andrews (2018). *Effective PD: Active Learning and Coherence*.</li>
+                <li>[37] Learning Mole (2023). *Designing Effective Rubrics for Primary School Assessments*.</li>
+                <li>[5] Kelly, T. R., & Knowels, J. G. (2016). *A Conceptual Framework for Integrated STEM Education*.</li>
+                <li>[27] FHA Architects (2024). *Designing STEM Spaces on a Tight Budget: Low-Cost, Flexible Design Solutions*.</li>
+                <li>[2] NMS (2024). *Evaluating Impact: Measuring Success in STEM Education Programs*.</li>
+                <li>[36] STEM Career (2024). *STEM Program Coordinator Responsibilities & Duties*.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>
