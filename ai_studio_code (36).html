@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך למשחק הכרטיסיות: מאיים ליבשת STEM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A90E2; 
+            --secondary-color: #00A99D; 
+            --accent-color: #F5A623;
+            --success-color: #27AE60;
+            --text-color: #333;
+            --bg-color: #F4F7F9;
+            --border-color: #EAECEF;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        .branding .logo { height: 50px; }
+        .branding .logo-large { height: 80px; }
+
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+        h1 { text-align: center; font-size: 2.6em; margin-bottom: 10px; }
+        h2 { font-size: 2em; color: var(--secondary-color); border-right: 4px solid var(--secondary-color); padding-right: 15px; margin-top: 50px; }
+        h3 { font-size: 1.5em; margin-top: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
+        p, li { font-size: 1.1em; }
+
+        .goal-box {
+            background-color: #eef6ff;
+            border: 2px solid var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: right;
+            margin-bottom: 30px;
+        }
+        .goal-box h4 { margin-bottom: 5px; }
+        .goal-box p { margin-top: 0; }
+        
+        ol.steps-list {
+            list-style-type: none;
+            padding-right: 0;
+            counter-reset: step-counter;
+        }
+        ol.steps-list > li {
+            counter-increment: step-counter;
+            margin-bottom: 20px;
+            padding-right: 45px;
+            position: relative;
+        }
+        ol.steps-list > li::before {
+            content: counter(step-counter);
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 700;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 1.2em;
+        }
+        
+        .key-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            font-size: 1.05em;
+        }
+        .key-table th, .key-table td {
+            padding: 12px;
+            text-align: right;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .key-table thead th {
+            background-color: #34495e;
+            color: white;
+            font-weight: 700;
+        }
+        .key-table tbody tr:nth-child(even) { background-color: #f8f9fa; }
+        .golden-bridge {
+            background-color: #fff9e6;
+            font-weight: 700;
+        }
+        
+        .discussion-point {
+            background-color: #f0f0f0;
+            border-right: 4px solid #aaa;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        @media print {
+            body { background-color: #fff; }
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            .key-table {
+                font-size: 0.9em;
+            }
+            h2 {
+                page-break-before: always;
+            }
+            h2:first-of-type {
+                page-break-before: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="branding">
+            <img src="logo2.png" alt="לוגו מאיים ליבשת STEM" class="logo logo-large">
+            <img src="logostem.jpg" alt="לוגו האגף לחינוך יסודי" class="logo">
+        </div>
+
+        <h1>מדריך למשחק הכרטיסיות: מאיים ליבשת STEM</h1>
+
+        <div class="goal-box">
+            <h4>🎯 מטרת המשחק</h4>
+            <p>לדמות תהליך של אבחון ותכנון אסטרטגי. המטרה היא להפוך יוזמות חינוכיות נקודתיות ובודדות (<strong>איים</strong>) לגישה מערכתית ויציבה (<strong>יבשת</strong>), באמצעות בחירת פתרונות מדויקים (<strong>גשרים</strong>) במסגרת מגבלת משאבים (<strong>תקציב</strong>).</p>
+        </div>
+
+        <h3>רכיבי המשחק (מה יש בערכה?)</h3>
+        <ul>
+            <li><strong>8 כרטיסיות "איים" (אדומות):</strong> מייצגות את האתגרים המרכזיים בשטח.</li>
+            <li><strong>16 כרטיסיות "השלכות" (כתומות):</strong> שתי השלכות אפשריות לכל אי.</li>
+            <li><strong>11 כרטיסיות "גשרים" (ירוקות):</strong> מייצגות את הפרקטיקות והפתרונות האסטרטגיים.</li>
+            <li><strong>1 כרטיס "יבשת STEM" ו-1 כרטיס "תקציב גשרים".</strong></li>
+            <li><strong>אסימונים/דסקיות:</strong> 15-18 יחידות (לא כלול בערכה).</li>
+        </ul>
+
+        <h2>שלב 1: הכנת המשחק (Setup)</h2>
+        <ol class="steps-list">
+            <li><strong>הנחת הלוח:</strong> הניחו את הכרטיס הגדול <strong>"יבשת STEM"</strong> במרכז השולחן.</li>
+            <li><strong>הכנת התקציב:</strong> הניחו את כרטיס <strong>"תקציב גשרים"</strong> לידו. קבעו את התקציב (מומלץ: 15 נקודות) והניחו עליו את מספר האסימונים המתאים.</li>
+            <li><strong>פריסת הכרטיסים:</strong>
+                <ul>
+                    <li><strong>ארגז הכלים:</strong> פרסו את כל **כרטיסיות הגשרים (הירוקות)** עם הפנים כלפי מעלה.</li>
+                    <li><strong>איי האתגר:</strong> ערבבו את **כרטיסיות האיים (האדומות)** והניחו בערימה עם הפנים מטה.</li>
+                    <li><strong>ערימת ההשלכות:</strong> שמרו את **כרטיסיות ההשלכות (הכתומות)** בערימה נפרדת בצד.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>שלב 2: מהלך המשחק</h2>
+        <h3>חלק א': אבחון המצב</h3>
+        <ol class="steps-list">
+            <li><strong>בחירת איים:</strong> הקבוצה שולפת 3 כרטיסיות "אי" מהערימה.
+                <div class="discussion-point">דיון קבוצתי: "אילו מהאתגרים האלה הכי רלוונטיים לשטח שלנו?" בחרו את 3 האיים שהכי מאפיינים אתכם.</div>
+            </li>
+            <li><strong>אבחון ההשלכה:</strong> עבור **כל אחד** משלושת האיים שבחרתם:
+                <ul>
+                    <li>מצאו את **שתי כרטיסיות ההשלכה** המתאימות לו.</li>
+                    <li><div class="discussion-point">דיון קבוצתי: "מבין שתי ההשלכות, איזו מהן אנחנו מזהים בצורה החזקה ביותר בשטח?"</div></li>
+                    <li>בחרו **השלכה אחת** והצמידו אותה לכרטיס האי.</li>
+                </ul>
+                <p><strong>בסוף שלב זה, יש לכם על השולחן 3 זוגות של כרטיסים: "אי" + "השלכה" מאובחנת.</strong></p>
+            </li>
+        </ol>
+
+        <h3>חלק ב': תכנון אסטרטגי</h3>
+        <ol class="steps-list">
+            <li><strong>סקירת ארגז הכלים:</strong> עברו יחד על כרטיסיות ה"גשרים" הפרוסות על השולחן ושימו לב לעלות של כל אחד.</li>
+            <li><strong>בניית גשרים:</strong>
+                <div class="discussion-point">דיון קבוצתי לכל אי: "אילו גשרים מארגז הכלים יטפלו בצורה הטובה ביותר באתגר ובהשלכה שאבחנו?"</div>
+                <ul>
+                    <li>כאשר אתם בוחרים גשר, קחו את הכרטיסייה שלו והניחו ליד האי המתאים.</li>
+                    <li><strong>שלמו על הגשר:</strong> הסירו את מספר האסימונים התואם לעלות הגשר מכרטיס התקציב.</li>
+                </ul>
+            </li>
+            <li><strong>ניהול התקציב:</strong> אתם יכולים להניח כמה גשרים שתרצו לכל אי, כל עוד אתם עומדים בתקציב. **אסור לחרוג מהתקציב!**</li>
+        </ol>
+
+        <h2>שלב 3: הערכת התוצאות ודיון מסכם</h2>
+        <ol class="steps-list">
+            <li><strong>חישוב הניקוד:</strong> השתמשו ב"מפתח התשובות" המצורף. עבור כל אי, בדקו:
+                <ul>
+                    <li><strong>האם בחרתם ב"גשר הזהב"?</strong> אם כן, האי מקבל <strong>50 נקודות</strong>.</li>
+                    <li><strong>כמה גשרים נוספים הנחתם?</strong> על כל גשר נוסף, האי מקבל <strong>10 נקודות</strong> (עד ציון מקסימלי של 100).</li>
+                </ul>
+            </li>
+            <li><strong>קביעת צבע האי:</strong>
+                <ul>
+                    <li><strong>80-100:</strong> חיבור אופטימלי (ירוק)</li>
+                    <li><strong>60-79:</strong> חיבור טוב (כחול)</li>
+                    <li><strong>40-59:</strong> חיבור חלקי (צהוב) - כנראה פספסתם את גשר הזהב</li>
+                    <li><strong>מתחת ל-40:</strong> חיבור חלש או כושל (כתום/אדום)</li>
+                </ul>
+            </li>
+            <li><strong>דיון מסכם (החלק החשוב ביותר!):</strong>
+                <div class="discussion-point">"מה למדנו מהתהליך על האתגרים האמיתיים שלנו? אילו 'גשרים' מהמשחק אנחנו יכולים להתחיל ליישם כבר מחר?"</div>
+            </li>
+        </ol>
+
+        <h2>מפתח תשובות: גשרי הזהב</h2>
+        <table class="key-table">
+            <thead>
+                <tr>
+                    <th>האי שבחרתם</th>
+                    <th>ההשלכה שזיהיתם</th>
+                    <th>גשר/י הזהב (50 נק' כל אחד)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2"><strong>אי מועדוני העשרה</strong></td>
+                    <td>פער נגישות ואי-שוויון</td>
+                    <td class="golden-bridge">🧩 פדגוגיה של PBL רבעוני</td>
+                </tr>
+                <tr>
+                    <td>חוסר רצף</td>
+                    <td class="golden-bridge">🤝 שותפויות קהילה ולקוחות</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>אי הוראה נפרדת</strong></td>
+                    <td>היעדר הקשר ומוטיבציה</td>
+                    <td class="golden-bridge">📝 תהליך התכנון ההנדסי</td>
+                </tr>
+                <tr>
+                    <td>החמצת פוטנציאל</td>
+                    <td class="golden-bridge">👑 מנהיגות חזונית + 🔄 ישיבות תכנון משותפות</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>אי המורה החלוץ</strong></td>
+                    <td>חוסר קיימות</td>
+                    <td class="golden-bridge">👑 מנהיגות חזונית + 🧑‍💻 רכז/מוביל STEM</td>
+                </tr>
+                <tr>
+                    <td>חוסר אחידות</td>
+                    <td class="golden-bridge">👑 מנהיגות חזונית + 🗣️ תיעוד ציבורי של תהליכים</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>אי הכשרות תיאורטיות</strong></td>
+                    <td>ביטחון עצמי נמוך של מורים</td>
+                    <td class="golden-bridge">🌳 פיתוח מקצועי ממוקד</td>
+                </tr>
+                <tr>
+                    <td>קיפאון בפרקטיקה</td>
+                    <td class="golden-bridge">📊 ניתוח נתונים וכלים דיגיטליים</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>אי ציוד לא מנוצל</strong></td>
+                    <td>בזבוז משאבים</td>
+                    <td class="golden-bridge">🧱 מרחבי יצירה גמישים</td>
+                </tr>
+                <tr>
+                    <td>תלות במומחה</td>
+                    <td class="golden-bridge">👑 מנהיגות חזונית + 🧑‍💻 רכז/מוביל STEM</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>אי הערכה מסכמת</strong></td>
+                    <td>פחד מכישלון</td>
+                    <td class="golden-bridge">📝 תהליך התכנון ההנדסי</td>
+                </tr>
+                <tr>
+                    <td>אובדן הזדמנויות למידה</td>
+                    <td class="golden-bridge">🗣️ תיעוד ציבורי של תהליכים</td>
+                </tr>
+                 <tr>
+                    <td rowspan="2"><strong>אי מעבדת המדעים</strong></td>
+                    <td>הגבלת גישה</td>
+                    <td class="golden-bridge">🌲 שימוש במרחב החיצוני</td>
+                </tr>
+                <tr>
+                    <td>ניתוק מהחיים</td>
+                    <td class="golden-bridge">🌲 שימוש במרחב החיצוני</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>אי המדעים והמתמטיקה</strong></td>
+                    <td>תלמידים "לא מדעיים" מנותקים</td>
+                    <td class="golden-bridge">📝 תהליך התכנון ההנדסי</td>
+                </tr>
+                <tr>
+                    <td>צמצום היצירתיות</td>
+                    <td class="golden-bridge">🔄 ישיבות תכנון משותפות</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>
